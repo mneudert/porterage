@@ -10,6 +10,7 @@ defmodule Porterage.Scheduler do
     GenServer.start_link(__MODULE__, config)
   end
 
+  @doc false
   def init([supervisor, scheduler]) do
     {:ok, %{supervisor: supervisor, scheduler: scheduler}}
   end

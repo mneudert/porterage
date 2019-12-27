@@ -10,6 +10,7 @@ defmodule Porterage.Fetcher do
     GenServer.start_link(__MODULE__, config)
   end
 
+  @doc false
   def init([supervisor, fetcher]) do
     {:ok, %{supervisor: supervisor, fetcher: fetcher}}
   end

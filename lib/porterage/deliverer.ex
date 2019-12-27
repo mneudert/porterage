@@ -10,6 +10,7 @@ defmodule Porterage.Deliverer do
     GenServer.start_link(__MODULE__, config)
   end
 
+  @doc false
   def init([supervisor, deliverer]) do
     {:ok, %{supervisor: supervisor, deliverer: deliverer}}
   end

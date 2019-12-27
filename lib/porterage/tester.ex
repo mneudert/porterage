@@ -10,6 +10,7 @@ defmodule Porterage.Tester do
     GenServer.start_link(__MODULE__, config)
   end
 
+  @doc false
   def init([supervisor, tester]) do
     {:ok, %{supervisor: supervisor, tester: tester}}
   end
