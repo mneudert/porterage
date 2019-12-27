@@ -12,6 +12,19 @@ defmodule Porterage.Scheduler do
 
   @doc false
   def init([supervisor, scheduler]) do
+    :ok = GenServer.cast(self(), :tick)
+
     {:ok, %{supervisor: supervisor, scheduler: scheduler}}
   end
+
+  def handle_cast(:tick, %{scheduler: scheduler} = state) do
+    scheduler.tick()
+
+    {:noreply, state}
+  end
+
+  @doc """
+  Execute a run of the tester module.
+  """
+  @callback tick() :: boolean
 end
