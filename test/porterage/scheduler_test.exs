@@ -11,7 +11,7 @@ defmodule Porterage.SchedulerTest do
 
           def tick do
             send(unquote(parent), :tick)
-            true
+            false
           end
         end
       end

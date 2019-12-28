@@ -18,9 +18,20 @@ defmodule Porterage.Scheduler do
   end
 
   def handle_cast(:tick, %{scheduler: scheduler} = state) do
-    scheduler.tick()
+    if scheduler.tick() do
+      :ok = notify_tester(state)
+    end
 
     {:noreply, state}
+  end
+
+  defp notify_tester(%{supervisor: supervisor}) do
+    supervisor
+    |> Supervisor.which_children()
+    |> Enum.each(fn
+      {Porterage.Tester, tester, :worker, _} -> GenServer.cast(tester, :test)
+      _ -> nil
+    end)
   end
 
   @doc """
