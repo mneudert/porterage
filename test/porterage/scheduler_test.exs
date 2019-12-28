@@ -19,7 +19,7 @@ defmodule Porterage.SchedulerTest do
       end
     )
 
-    start_supervised({Scheduler, [nil, DummyScheduler]})
+    start_supervised({Porterage, %{scheduler: DummyScheduler}})
     assert_receive :tick
   end
 end
