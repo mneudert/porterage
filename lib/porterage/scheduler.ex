@@ -24,7 +24,7 @@ defmodule Porterage.Scheduler do
   end
 
   @doc """
-  Execute a run of the tester module.
+  Execute a run of the scheduler module.
   """
   @callback tick() :: boolean
 end
