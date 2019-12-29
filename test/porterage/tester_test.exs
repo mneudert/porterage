@@ -17,7 +17,7 @@ defmodule Porterage.TesterTest do
 
           def test do
             send(unquote(parent), :test)
-            true
+            false
           end
         end
       end
