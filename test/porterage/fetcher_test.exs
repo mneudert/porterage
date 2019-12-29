@@ -23,7 +23,7 @@ defmodule Porterage.FetcherTest do
 
           def fetch do
             send(unquote(parent), :fetch)
-            true
+            :nodata
           end
         end
       end

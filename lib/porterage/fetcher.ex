@@ -16,7 +16,10 @@ defmodule Porterage.Fetcher do
   end
 
   def handle_cast(:fetch, %{fetcher: fetcher} = state) do
-    fetcher.fetch()
+    case fetcher.fetch() do
+      {:ok, data} -> notify_deliverer(state, data)
+      _ -> :ok
+    end
 
     {:noreply, state}
   end
@@ -24,5 +27,14 @@ defmodule Porterage.Fetcher do
   @doc """
   Execute a run of the fetcher module.
   """
-  @callback fetch() :: boolean
+  @callback fetch() :: {:ok, any} | any
+
+  defp notify_deliverer(%{supervisor: supervisor}, data) do
+    supervisor
+    |> Supervisor.which_children()
+    |> Enum.each(fn
+      {Porterage.Deliverer, deliverer, :worker, _} -> GenServer.cast(deliverer, {:deliver, data})
+      _ -> nil
+    end)
+  end
 end
