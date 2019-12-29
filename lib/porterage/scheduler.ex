@@ -26,12 +26,10 @@ defmodule Porterage.Scheduler do
   end
 
   defp notify_tester(%{supervisor: supervisor}) do
-    supervisor
-    |> Supervisor.which_children()
-    |> Enum.each(fn
-      {Porterage.Tester, tester, :worker, _} -> GenServer.cast(tester, :test)
-      _ -> nil
-    end)
+    case Porterage.Supervisor.child(supervisor, Porterage.Tester) do
+      tester when is_pid(tester) -> GenServer.cast(tester, :test)
+      _ -> :ok
+    end
   end
 
   @doc """

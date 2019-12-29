@@ -29,11 +29,9 @@ defmodule Porterage.Tester do
   @callback test() :: boolean
 
   defp notify_fetcher(%{supervisor: supervisor}) do
-    supervisor
-    |> Supervisor.which_children()
-    |> Enum.each(fn
-      {Porterage.Fetcher, fetcher, :worker, _} -> GenServer.cast(fetcher, :fetch)
-      _ -> nil
-    end)
+    case Porterage.Supervisor.child(supervisor, Porterage.Fetcher) do
+      fetcher when is_pid(fetcher) -> GenServer.cast(fetcher, :fetch)
+      _ -> :ok
+    end
   end
 end

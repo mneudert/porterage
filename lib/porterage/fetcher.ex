@@ -30,11 +30,9 @@ defmodule Porterage.Fetcher do
   @callback fetch() :: {:ok, any} | any
 
   defp notify_deliverer(%{supervisor: supervisor}, data) do
-    supervisor
-    |> Supervisor.which_children()
-    |> Enum.each(fn
-      {Porterage.Deliverer, deliverer, :worker, _} -> GenServer.cast(deliverer, {:deliver, data})
-      _ -> nil
-    end)
+    case Porterage.Supervisor.child(supervisor, Porterage.Deliverer) do
+      deliverer when is_pid(deliverer) -> GenServer.cast(deliverer, {:deliver, data})
+      _ -> :ok
+    end
   end
 end
