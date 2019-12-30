@@ -30,6 +30,10 @@ defmodule Porterage.DelivererTest do
           def deliver(data) do
             send(unquote(parent), data)
           end
+
+          def init do
+            send(unquote(parent), :init)
+          end
         end
       end
     )
@@ -44,6 +48,7 @@ defmodule Porterage.DelivererTest do
        }}
     )
 
+    assert_receive :init
     assert_receive :some_data
   end
 end

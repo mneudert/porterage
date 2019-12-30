@@ -3,8 +3,9 @@ defmodule Porterage.FetcherState do
 
   @type t :: %__MODULE__{
           fetcher: module,
+          substate: any,
           supervisor: pid
         }
 
-  defstruct [:fetcher, :supervisor]
+  defstruct [:fetcher, :substate, :supervisor]
 end

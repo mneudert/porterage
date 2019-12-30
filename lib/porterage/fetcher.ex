@@ -15,7 +15,12 @@ defmodule Porterage.Fetcher do
 
   @doc false
   def init([supervisor, fetcher]) do
-    {:ok, %FetcherState{supervisor: supervisor, fetcher: fetcher}}
+    substate =
+      if function_exported?(fetcher, :init, 0) do
+        fetcher.init()
+      end
+
+    {:ok, %FetcherState{fetcher: fetcher, substate: substate, supervisor: supervisor}}
   end
 
   def handle_cast(:fetch, %FetcherState{fetcher: fetcher} = state) do
@@ -27,10 +32,17 @@ defmodule Porterage.Fetcher do
     {:noreply, state}
   end
 
+  @optional_callbacks [init: 0]
+
   @doc """
   Execute a run of the fetcher module.
   """
   @callback fetch() :: {:ok, any} | any
+
+  @doc """
+  Optional state initialization.
+  """
+  @callback init() :: any
 
   defp notify_deliverer(%FetcherState{supervisor: supervisor}, data) do
     case Supervisor.child(supervisor, Porterage.Deliverer) do

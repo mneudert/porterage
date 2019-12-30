@@ -2,9 +2,10 @@ defmodule Porterage.TesterState do
   @moduledoc false
 
   @type t :: %__MODULE__{
-          tester: module,
-          supervisor: pid
+          substate: any,
+          supervisor: pid,
+          tester: module
         }
 
-  defstruct [:supervisor, :tester]
+  defstruct [:substate, :supervisor, :tester]
 end

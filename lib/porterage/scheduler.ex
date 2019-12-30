@@ -15,9 +15,14 @@ defmodule Porterage.Scheduler do
 
   @doc false
   def init([supervisor, scheduler]) do
+    substate =
+      if function_exported?(scheduler, :init, 0) do
+        scheduler.init()
+      end
+
     :ok = GenServer.cast(self(), :tick)
 
-    {:ok, %SchedulerState{supervisor: supervisor, scheduler: scheduler}}
+    {:ok, %SchedulerState{scheduler: scheduler, substate: substate, supervisor: supervisor}}
   end
 
   def handle_cast(:tick, %SchedulerState{scheduler: scheduler} = state) do
@@ -34,6 +39,13 @@ defmodule Porterage.Scheduler do
       _ -> :ok
     end
   end
+
+  @optional_callbacks [init: 0]
+
+  @doc """
+  Optional state initialization.
+  """
+  @callback init() :: any
 
   @doc """
   Execute a run of the scheduler module.

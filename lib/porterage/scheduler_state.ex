@@ -3,8 +3,9 @@ defmodule Porterage.SchedulerState do
 
   @type t :: %__MODULE__{
           scheduler: module,
+          substate: any,
           supervisor: pid
         }
 
-  defstruct [:scheduler, :supervisor]
+  defstruct [:scheduler, :substate, :supervisor]
 end

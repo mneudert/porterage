@@ -3,8 +3,9 @@ defmodule Porterage.DelivererState do
 
   @type t :: %__MODULE__{
           deliverer: module,
+          substate: any,
           supervisor: pid
         }
 
-  defstruct [:deliverer, :supervisor]
+  defstruct [:deliverer, :substate, :supervisor]
 end

@@ -15,6 +15,10 @@ defmodule Porterage.TesterTest do
         defmodule DummyTester do
           @behaviour Porterage.Tester
 
+          def init do
+            send(unquote(parent), :init)
+          end
+
           def test do
             send(unquote(parent), :test)
             false
@@ -24,6 +28,8 @@ defmodule Porterage.TesterTest do
     )
 
     start_supervised({Porterage, %{scheduler: DummyScheduler, tester: DummyTester}})
+
+    assert_receive :init
     assert_receive :test
   end
 end

@@ -9,6 +9,10 @@ defmodule Porterage.SchedulerTest do
         defmodule DummyScheduler do
           @behaviour Porterage.Scheduler
 
+          def init do
+            send(unquote(parent), :init)
+          end
+
           def tick do
             send(unquote(parent), :tick)
             false
@@ -18,6 +22,8 @@ defmodule Porterage.SchedulerTest do
     )
 
     start_supervised({Porterage, %{scheduler: DummyScheduler}})
+
+    assert_receive :init
     assert_receive :tick
   end
 end

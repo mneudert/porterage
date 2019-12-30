@@ -15,7 +15,12 @@ defmodule Porterage.Tester do
 
   @doc false
   def init([supervisor, tester]) do
-    {:ok, %TesterState{supervisor: supervisor, tester: tester}}
+    substate =
+      if function_exported?(tester, :init, 0) do
+        tester.init()
+      end
+
+    {:ok, %TesterState{substate: substate, supervisor: supervisor, tester: tester}}
   end
 
   def handle_cast(:test, %TesterState{tester: tester} = state) do
@@ -25,6 +30,13 @@ defmodule Porterage.Tester do
 
     {:noreply, state}
   end
+
+  @optional_callbacks [init: 0]
+
+  @doc """
+  Optional state initialization.
+  """
+  @callback init() :: any
 
   @doc """
   Execute a run of the tester module.

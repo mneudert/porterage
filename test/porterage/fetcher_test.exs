@@ -25,6 +25,10 @@ defmodule Porterage.FetcherTest do
             send(unquote(parent), :fetch)
             :nodata
           end
+
+          def init do
+            send(unquote(parent), :init)
+          end
         end
       end
     )
@@ -33,6 +37,7 @@ defmodule Porterage.FetcherTest do
       {Porterage, %{fetcher: DummyFetcher, scheduler: DummyScheduler, tester: DummyTester}}
     )
 
+    assert_receive :init
     assert_receive :fetch
   end
 end
