@@ -6,6 +6,7 @@ defmodule Porterage.Fetcher do
   use GenServer
 
   alias Porterage.FetcherState
+  alias Porterage.Supervisor
 
   @doc false
   def start_link(config) do
@@ -32,7 +33,7 @@ defmodule Porterage.Fetcher do
   @callback fetch() :: {:ok, any} | any
 
   defp notify_deliverer(%FetcherState{supervisor: supervisor}, data) do
-    case Porterage.Supervisor.child(supervisor, Porterage.Deliverer) do
+    case Supervisor.child(supervisor, Porterage.Deliverer) do
       deliverer when is_pid(deliverer) -> GenServer.cast(deliverer, {:deliver, data})
       _ -> :ok
     end

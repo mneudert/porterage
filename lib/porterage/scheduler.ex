@@ -6,6 +6,7 @@ defmodule Porterage.Scheduler do
   use GenServer
 
   alias Porterage.SchedulerState
+  alias Porterage.Supervisor
 
   @doc false
   def start_link(config) do
@@ -28,7 +29,7 @@ defmodule Porterage.Scheduler do
   end
 
   defp notify_tester(%SchedulerState{supervisor: supervisor}) do
-    case Porterage.Supervisor.child(supervisor, Porterage.Tester) do
+    case Supervisor.child(supervisor, Porterage.Tester) do
       tester when is_pid(tester) -> GenServer.cast(tester, :test)
       _ -> :ok
     end
