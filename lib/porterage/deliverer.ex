@@ -5,6 +5,8 @@ defmodule Porterage.Deliverer do
 
   use GenServer
 
+  alias Porterage.DelivererState
+
   @doc false
   def start_link(config) do
     GenServer.start_link(__MODULE__, config)
@@ -12,10 +14,10 @@ defmodule Porterage.Deliverer do
 
   @doc false
   def init([supervisor, deliverer]) do
-    {:ok, %{supervisor: supervisor, deliverer: deliverer}}
+    {:ok, %DelivererState{supervisor: supervisor, deliverer: deliverer}}
   end
 
-  def handle_cast({:deliver, data}, %{deliverer: deliverer} = state) do
+  def handle_cast({:deliver, data}, %DelivererState{deliverer: deliverer} = state) do
     deliverer.deliver(data)
 
     {:noreply, state}

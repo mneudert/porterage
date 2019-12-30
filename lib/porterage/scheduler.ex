@@ -5,6 +5,8 @@ defmodule Porterage.Scheduler do
 
   use GenServer
 
+  alias Porterage.SchedulerState
+
   @doc false
   def start_link(config) do
     GenServer.start_link(__MODULE__, config)
@@ -14,10 +16,10 @@ defmodule Porterage.Scheduler do
   def init([supervisor, scheduler]) do
     :ok = GenServer.cast(self(), :tick)
 
-    {:ok, %{supervisor: supervisor, scheduler: scheduler}}
+    {:ok, %SchedulerState{supervisor: supervisor, scheduler: scheduler}}
   end
 
-  def handle_cast(:tick, %{scheduler: scheduler} = state) do
+  def handle_cast(:tick, %SchedulerState{scheduler: scheduler} = state) do
     if scheduler.tick() do
       :ok = notify_tester(state)
     end
@@ -25,7 +27,7 @@ defmodule Porterage.Scheduler do
     {:noreply, state}
   end
 
-  defp notify_tester(%{supervisor: supervisor}) do
+  defp notify_tester(%SchedulerState{supervisor: supervisor}) do
     case Porterage.Supervisor.child(supervisor, Porterage.Tester) do
       tester when is_pid(tester) -> GenServer.cast(tester, :test)
       _ -> :ok

@@ -5,6 +5,8 @@ defmodule Porterage.Tester do
 
   use GenServer
 
+  alias Porterage.TesterState
+
   @doc false
   def start_link(config) do
     GenServer.start_link(__MODULE__, config)
@@ -12,10 +14,10 @@ defmodule Porterage.Tester do
 
   @doc false
   def init([supervisor, tester]) do
-    {:ok, %{supervisor: supervisor, tester: tester}}
+    {:ok, %TesterState{supervisor: supervisor, tester: tester}}
   end
 
-  def handle_cast(:test, %{tester: tester} = state) do
+  def handle_cast(:test, %TesterState{tester: tester} = state) do
     if tester.test() do
       :ok = notify_fetcher(state)
     end
@@ -28,7 +30,7 @@ defmodule Porterage.Tester do
   """
   @callback test() :: boolean
 
-  defp notify_fetcher(%{supervisor: supervisor}) do
+  defp notify_fetcher(%TesterState{supervisor: supervisor}) do
     case Porterage.Supervisor.child(supervisor, Porterage.Fetcher) do
       fetcher when is_pid(fetcher) -> GenServer.cast(fetcher, :fetch)
       _ -> :ok
