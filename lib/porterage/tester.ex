@@ -14,10 +14,10 @@ defmodule Porterage.Tester do
   end
 
   @doc false
-  def init([supervisor, tester]) do
+  def init([supervisor, tester, opts]) do
     substate =
-      if function_exported?(tester, :init, 0) do
-        tester.init()
+      if function_exported?(tester, :init, 1) do
+        tester.init(opts)
       end
 
     {:ok, %TesterState{substate: substate, supervisor: supervisor, tester: tester}}
@@ -31,12 +31,12 @@ defmodule Porterage.Tester do
     {:noreply, state}
   end
 
-  @optional_callbacks [init: 0]
+  @optional_callbacks [init: 1]
 
   @doc """
   Optional state initialization.
   """
-  @callback init() :: any
+  @callback init(opts :: Keyword.t()) :: any
 
   @doc """
   Execute a run of the tester module.

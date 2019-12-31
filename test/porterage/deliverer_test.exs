@@ -2,8 +2,6 @@ defmodule Porterage.DelivererTest do
   use ExUnit.Case, async: true
 
   test "deliver called after fetcher fetch" do
-    parent = self()
-
     defmodule DummyScheduler do
       @behaviour Porterage.Scheduler
 
@@ -22,27 +20,24 @@ defmodule Porterage.DelivererTest do
       def fetch(_), do: {:ok, :some_data}
     end
 
-    Code.compile_quoted(
-      quote do
-        defmodule DummyDeliverer do
-          @behaviour Porterage.Deliverer
+    defmodule DummyDeliverer do
+      @behaviour Porterage.Deliverer
 
-          def deliver(:substate, data) do
-            send(unquote(parent), data)
-          end
-
-          def init do
-            send(unquote(parent), :init)
-            :substate
-          end
-        end
+      def deliver(parent, data) do
+        send(parent, data)
       end
-    )
+
+      def init(parent) do
+        send(parent, :init)
+        parent
+      end
+    end
 
     start_supervised(
       {Porterage,
        %{
          deliverer: DummyDeliverer,
+         deliverer_opts: self(),
          fetcher: DummyFetcher,
          scheduler: DummyScheduler,
          tester: DummyTester

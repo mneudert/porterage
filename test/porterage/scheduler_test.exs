@@ -4,25 +4,21 @@ defmodule Porterage.SchedulerTest do
   test "tick called after start" do
     parent = self()
 
-    Code.compile_quoted(
-      quote do
-        defmodule DummyScheduler do
-          @behaviour Porterage.Scheduler
+    defmodule DummyScheduler do
+      @behaviour Porterage.Scheduler
 
-          def init do
-            send(unquote(parent), :init)
-            :substate
-          end
-
-          def tick(:substate) do
-            send(unquote(parent), :tick)
-            false
-          end
-        end
+      def init(parent) do
+        send(parent, :init)
+        parent
       end
-    )
 
-    start_supervised({Porterage, %{scheduler: DummyScheduler}})
+      def tick(parent) do
+        send(parent, :tick)
+        false
+      end
+    end
+
+    start_supervised({Porterage, %{scheduler: DummyScheduler, scheduler_opts: self()}})
 
     assert_receive :init
     assert_receive :tick

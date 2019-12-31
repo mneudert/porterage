@@ -14,10 +14,10 @@ defmodule Porterage.Fetcher do
   end
 
   @doc false
-  def init([supervisor, fetcher]) do
+  def init([supervisor, fetcher, opts]) do
     substate =
-      if function_exported?(fetcher, :init, 0) do
-        fetcher.init()
+      if function_exported?(fetcher, :init, 1) do
+        fetcher.init(opts)
       end
 
     {:ok, %FetcherState{fetcher: fetcher, substate: substate, supervisor: supervisor}}
@@ -32,7 +32,7 @@ defmodule Porterage.Fetcher do
     {:noreply, state}
   end
 
-  @optional_callbacks [init: 0]
+  @optional_callbacks [init: 1]
 
   @doc """
   Execute a run of the fetcher module.
@@ -42,7 +42,7 @@ defmodule Porterage.Fetcher do
   @doc """
   Optional state initialization.
   """
-  @callback init() :: any
+  @callback init(opts :: Keyword.t()) :: any
 
   defp notify_deliverer(%FetcherState{supervisor: supervisor}, data) do
     case Supervisor.child(supervisor, Porterage.Deliverer) do

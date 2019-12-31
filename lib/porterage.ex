@@ -18,10 +18,10 @@ defmodule Porterage do
   @doc false
   def init(config) do
     children = [
-      {Scheduler, [self(), config[:scheduler]]},
-      {Tester, [self(), config[:tester]]},
-      {Fetcher, [self(), config[:fetcher]]},
-      {Deliverer, [self(), config[:deliverer]]}
+      {Scheduler, [self(), config[:scheduler], config[:scheduler_opts]]},
+      {Tester, [self(), config[:tester], config[:tester_opts]]},
+      {Fetcher, [self(), config[:fetcher], config[:fetcher_opts]]},
+      {Deliverer, [self(), config[:deliverer], config[:deliverer_opts]]}
     ]
 
     Supervisor.init(children, strategy: :one_for_one)

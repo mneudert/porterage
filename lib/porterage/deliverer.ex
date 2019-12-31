@@ -13,10 +13,10 @@ defmodule Porterage.Deliverer do
   end
 
   @doc false
-  def init([supervisor, deliverer]) do
+  def init([supervisor, deliverer, opts]) do
     substate =
-      if function_exported?(deliverer, :init, 0) do
-        deliverer.init()
+      if function_exported?(deliverer, :init, 1) do
+        deliverer.init(opts)
       end
 
     {:ok, %DelivererState{deliverer: deliverer, substate: substate, supervisor: supervisor}}
@@ -31,7 +31,7 @@ defmodule Porterage.Deliverer do
     {:noreply, state}
   end
 
-  @optional_callbacks [init: 0]
+  @optional_callbacks [init: 1]
 
   @doc """
   Execute a run of the deliverer module.
@@ -41,5 +41,5 @@ defmodule Porterage.Deliverer do
   @doc """
   Optional state initialization.
   """
-  @callback init() :: any
+  @callback init(opts :: Keyword.t()) :: any
 end

@@ -10,25 +10,23 @@ defmodule Porterage.TesterTest do
       def tick(_), do: true
     end
 
-    Code.compile_quoted(
-      quote do
-        defmodule DummyTester do
-          @behaviour Porterage.Tester
+    defmodule DummyTester do
+      @behaviour Porterage.Tester
 
-          def init do
-            send(unquote(parent), :init)
-            :substate
-          end
-
-          def test(:substate) do
-            send(unquote(parent), :test)
-            false
-          end
-        end
+      def init(parent) do
+        send(parent, :init)
+        parent
       end
-    )
 
-    start_supervised({Porterage, %{scheduler: DummyScheduler, tester: DummyTester}})
+      def test(parent) do
+        send(parent, :test)
+        false
+      end
+    end
+
+    start_supervised(
+      {Porterage, %{scheduler: DummyScheduler, tester: DummyTester, tester_opts: self()}}
+    )
 
     assert_receive :init
     assert_receive :test
