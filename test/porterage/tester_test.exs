@@ -7,7 +7,7 @@ defmodule Porterage.TesterTest do
     defmodule DummyScheduler do
       @behaviour Porterage.Scheduler
 
-      def tick, do: true
+      def tick(_), do: true
     end
 
     Code.compile_quoted(
@@ -17,9 +17,10 @@ defmodule Porterage.TesterTest do
 
           def init do
             send(unquote(parent), :init)
+            :substate
           end
 
-          def test do
+          def test(:substate) do
             send(unquote(parent), :test)
             false
           end

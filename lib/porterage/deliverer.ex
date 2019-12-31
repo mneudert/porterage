@@ -22,8 +22,11 @@ defmodule Porterage.Deliverer do
     {:ok, %DelivererState{deliverer: deliverer, substate: substate, supervisor: supervisor}}
   end
 
-  def handle_cast({:deliver, data}, %DelivererState{deliverer: deliverer} = state) do
-    deliverer.deliver(data)
+  def handle_cast(
+        {:deliver, data},
+        %DelivererState{deliverer: deliverer, substate: substate} = state
+      ) do
+    deliverer.deliver(substate, data)
 
     {:noreply, state}
   end
@@ -33,7 +36,7 @@ defmodule Porterage.Deliverer do
   @doc """
   Execute a run of the deliverer module.
   """
-  @callback deliver(data :: any) :: any
+  @callback deliver(state :: any, data :: any) :: any
 
   @doc """
   Optional state initialization.

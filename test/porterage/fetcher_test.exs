@@ -7,13 +7,13 @@ defmodule Porterage.FetcherTest do
     defmodule DummyScheduler do
       @behaviour Porterage.Scheduler
 
-      def tick, do: true
+      def tick(_), do: true
     end
 
     defmodule DummyTester do
       @behaviour Porterage.Tester
 
-      def test, do: true
+      def test(_), do: true
     end
 
     Code.compile_quoted(
@@ -21,13 +21,14 @@ defmodule Porterage.FetcherTest do
         defmodule DummyFetcher do
           @behaviour Porterage.Fetcher
 
-          def fetch do
+          def fetch(:substate) do
             send(unquote(parent), :fetch)
             :nodata
           end
 
           def init do
             send(unquote(parent), :init)
+            :substate
           end
         end
       end

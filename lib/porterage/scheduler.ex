@@ -25,8 +25,8 @@ defmodule Porterage.Scheduler do
     {:ok, %SchedulerState{scheduler: scheduler, substate: substate, supervisor: supervisor}}
   end
 
-  def handle_cast(:tick, %SchedulerState{scheduler: scheduler} = state) do
-    if scheduler.tick() do
+  def handle_cast(:tick, %SchedulerState{scheduler: scheduler, substate: substate} = state) do
+    if scheduler.tick(substate) do
       :ok = notify_tester(state)
     end
 
@@ -50,5 +50,5 @@ defmodule Porterage.Scheduler do
   @doc """
   Execute a run of the scheduler module.
   """
-  @callback tick() :: boolean
+  @callback tick(state :: any) :: boolean
 end

@@ -23,8 +23,8 @@ defmodule Porterage.Tester do
     {:ok, %TesterState{substate: substate, supervisor: supervisor, tester: tester}}
   end
 
-  def handle_cast(:test, %TesterState{tester: tester} = state) do
-    if tester.test() do
+  def handle_cast(:test, %TesterState{substate: substate, tester: tester} = state) do
+    if tester.test(substate) do
       :ok = notify_fetcher(state)
     end
 
@@ -41,7 +41,7 @@ defmodule Porterage.Tester do
   @doc """
   Execute a run of the tester module.
   """
-  @callback test() :: boolean
+  @callback test(state :: any) :: boolean
 
   defp notify_fetcher(%TesterState{supervisor: supervisor}) do
     case Supervisor.child(supervisor, Porterage.Fetcher) do

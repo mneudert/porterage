@@ -11,9 +11,10 @@ defmodule Porterage.SchedulerTest do
 
           def init do
             send(unquote(parent), :init)
+            :substate
           end
 
-          def tick do
+          def tick(:substate) do
             send(unquote(parent), :tick)
             false
           end
