@@ -33,7 +33,7 @@ defmodule Porterage.Deliverer do
   @doc """
   Execute a run of the deliverer module.
   """
-  @callback deliver(any) :: any
+  @callback deliver(data :: any) :: any
 
   @doc """
   Optional state initialization.
