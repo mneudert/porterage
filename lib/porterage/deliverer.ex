@@ -15,7 +15,7 @@ defmodule Porterage.Deliverer do
   @doc false
   def init([supervisor, deliverer, opts]) do
     substate =
-      if function_exported?(deliverer, :init, 1) do
+      if Code.ensure_loaded?(deliverer) and function_exported?(deliverer, :init, 1) do
         deliverer.init(opts)
       end
 

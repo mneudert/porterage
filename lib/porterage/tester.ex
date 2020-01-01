@@ -16,7 +16,7 @@ defmodule Porterage.Tester do
   @doc false
   def init([supervisor, tester, opts]) do
     substate =
-      if function_exported?(tester, :init, 1) do
+      if Code.ensure_loaded?(tester) and function_exported?(tester, :init, 1) do
         tester.init(opts)
       end
 

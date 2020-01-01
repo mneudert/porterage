@@ -16,7 +16,7 @@ defmodule Porterage.Fetcher do
   @doc false
   def init([supervisor, fetcher, opts]) do
     substate =
-      if function_exported?(fetcher, :init, 1) do
+      if Code.ensure_loaded?(fetcher) and function_exported?(fetcher, :init, 1) do
         fetcher.init(opts)
       end
 

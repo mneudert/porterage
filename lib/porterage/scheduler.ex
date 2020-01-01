@@ -16,7 +16,7 @@ defmodule Porterage.Scheduler do
   @doc false
   def init([supervisor, scheduler, opts]) do
     substate =
-      if function_exported?(scheduler, :init, 1) do
+      if Code.ensure_loaded?(scheduler) and function_exported?(scheduler, :init, 1) do
         scheduler.init(opts)
       end
 
