@@ -2,8 +2,6 @@ defmodule Porterage.SchedulerTest do
   use ExUnit.Case, async: true
 
   test "tick called after start" do
-    parent = self()
-
     defmodule DummyScheduler do
       @behaviour Porterage.Scheduler
 
