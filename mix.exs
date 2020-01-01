@@ -11,6 +11,7 @@ defmodule Porterage.MixProject do
       elixir: "~> 1.7",
       deps: deps(),
       docs: docs(),
+      elixirc_paths: elixirc_paths(Mix.env()),
       package: package(),
       preferred_cli_env: [
         coveralls: :test,
@@ -39,6 +40,9 @@ defmodule Porterage.MixProject do
       source_url: @url_github
     ]
   end
+
+  defp elixirc_paths(:test), do: ["lib", "test/helpers"]
+  defp elixirc_paths(_), do: ["lib"]
 
   defp package do
     %{
