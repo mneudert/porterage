@@ -1,13 +1,9 @@
 defmodule Porterage.TesterTest do
   use ExUnit.Case, async: true
 
+  alias Porterage.TestHelpers.DummyScheduler
+
   test "test called after scheduler tick" do
-    defmodule DummyScheduler do
-      @behaviour Porterage.Scheduler
-
-      def tick(_), do: true
-    end
-
     defmodule DummyTester do
       @behaviour Porterage.Tester
 
@@ -23,7 +19,13 @@ defmodule Porterage.TesterTest do
     end
 
     start_supervised(
-      {Porterage, %{scheduler: DummyScheduler, tester: DummyTester, tester_opts: self()}}
+      {Porterage,
+       %{
+         scheduler: DummyScheduler,
+         scheduler_opts: %{return_tick: true},
+         tester: DummyTester,
+         tester_opts: self()
+       }}
     )
 
     assert_receive :init

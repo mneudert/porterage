@@ -1,22 +1,16 @@
 defmodule Porterage.SchedulerTest do
   use ExUnit.Case, async: true
 
+  alias Porterage.TestHelpers.DummyScheduler
+
   test "tick called after start" do
-    defmodule DummyScheduler do
-      @behaviour Porterage.Scheduler
-
-      def init(parent) do
-        send(parent, :init)
-        parent
-      end
-
-      def tick(parent) do
-        send(parent, :tick)
-        false
-      end
-    end
-
-    start_supervised({Porterage, %{scheduler: DummyScheduler, scheduler_opts: self()}})
+    start_supervised(
+      {Porterage,
+       %{
+         scheduler: DummyScheduler,
+         scheduler_opts: %{parent: self(), return_tick: false, send_init: :init, send_tick: :tick}
+       }}
+    )
 
     assert_receive :init
     assert_receive :tick

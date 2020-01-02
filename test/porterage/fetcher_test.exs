@@ -1,13 +1,9 @@
 defmodule Porterage.FetcherTest do
   use ExUnit.Case, async: true
 
+  alias Porterage.TestHelpers.DummyScheduler
+
   test "fetch called after tester test" do
-    defmodule DummyScheduler do
-      @behaviour Porterage.Scheduler
-
-      def tick(_), do: true
-    end
-
     defmodule DummyTester do
       @behaviour Porterage.Tester
 
@@ -34,6 +30,7 @@ defmodule Porterage.FetcherTest do
          fetcher: DummyFetcher,
          fetcher_opts: self(),
          scheduler: DummyScheduler,
+         scheduler_opts: %{return_tick: true},
          tester: DummyTester
        }}
     )
