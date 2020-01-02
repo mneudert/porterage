@@ -1,16 +1,11 @@
 defmodule Porterage.DelivererTest do
   use ExUnit.Case, async: true
 
+  alias Porterage.TestHelpers.DummyFetcher
   alias Porterage.TestHelpers.DummyScheduler
   alias Porterage.TestHelpers.DummyTester
 
   test "deliver called after fetcher fetch" do
-    defmodule DummyFetcher do
-      @behaviour Porterage.Fetcher
-
-      def fetch(_), do: {:ok, :some_data}
-    end
-
     defmodule DummyDeliverer do
       @behaviour Porterage.Deliverer
 
@@ -30,6 +25,7 @@ defmodule Porterage.DelivererTest do
          deliverer: DummyDeliverer,
          deliverer_opts: self(),
          fetcher: DummyFetcher,
+         fetcher_opts: %{return_fetch: {:ok, :some_data}},
          scheduler: DummyScheduler,
          scheduler_opts: %{return_tick: true},
          tester: DummyTester,
