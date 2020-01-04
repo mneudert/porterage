@@ -42,7 +42,7 @@ defmodule Porterage.Fetcher do
   @doc """
   Optional state initialization.
   """
-  @callback init(opts :: Keyword.t()) :: any
+  @callback init(opts :: map) :: any
 
   defp notify_deliverer(%FetcherState{supervisor: supervisor}, data) do
     case Supervisor.child(supervisor, Porterage.Deliverer) do

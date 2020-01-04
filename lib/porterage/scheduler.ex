@@ -45,7 +45,7 @@ defmodule Porterage.Scheduler do
   @doc """
   Optional state initialization.
   """
-  @callback init(opts :: Keyword.t()) :: any
+  @callback init(opts :: map) :: any
 
   @doc """
   Execute a run of the scheduler module.

@@ -41,5 +41,5 @@ defmodule Porterage.Deliverer do
   @doc """
   Optional state initialization.
   """
-  @callback init(opts :: Keyword.t()) :: any
+  @callback init(opts :: map) :: any
 end
