@@ -8,6 +8,9 @@ defmodule Porterage.Fetcher do
   alias Porterage.FetcherState
   alias Porterage.Supervisor
 
+  @type state :: map
+  @type fetch_result :: {:ok, any} | any
+
   @doc false
   def start_link(config) do
     GenServer.start_link(__MODULE__, config)
@@ -37,12 +40,12 @@ defmodule Porterage.Fetcher do
   @doc """
   Execute a run of the fetcher module.
   """
-  @callback fetch(state :: any) :: {:ok, any} | any
+  @callback fetch(state :: any) :: fetch_result
 
   @doc """
   Optional state initialization.
   """
-  @callback init(opts :: map) :: any
+  @callback init(opts :: map) :: state
 
   defp notify_deliverer(%FetcherState{supervisor: supervisor}, data) do
     case Supervisor.child(supervisor, Porterage.Deliverer) do

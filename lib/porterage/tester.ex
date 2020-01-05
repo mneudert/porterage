@@ -8,6 +8,9 @@ defmodule Porterage.Tester do
   alias Porterage.Supervisor
   alias Porterage.TesterState
 
+  @type state :: map
+  @type test_result :: boolean
+
   @doc false
   def start_link(config) do
     GenServer.start_link(__MODULE__, config)
@@ -36,12 +39,12 @@ defmodule Porterage.Tester do
   @doc """
   Optional state initialization.
   """
-  @callback init(opts :: map) :: any
+  @callback init(opts :: map) :: state
 
   @doc """
   Execute a run of the tester module.
   """
-  @callback test(state :: any) :: boolean
+  @callback test(state :: any) :: test_result
 
   defp notify_fetcher(%TesterState{supervisor: supervisor}) do
     case Supervisor.child(supervisor, Porterage.Fetcher) do

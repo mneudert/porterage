@@ -1,9 +1,11 @@
 defmodule Porterage.DelivererState do
   @moduledoc false
 
+  alias Porterage.Deliverer
+
   @type t :: %__MODULE__{
           deliverer: module,
-          substate: any,
+          substate: Deliverer.state(),
           supervisor: pid
         }
 

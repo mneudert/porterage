@@ -8,6 +8,9 @@ defmodule Porterage.Scheduler do
   alias Porterage.SchedulerState
   alias Porterage.Supervisor
 
+  @type state :: map
+  @type tick_result :: boolean
+
   @doc false
   def start_link(config) do
     GenServer.start_link(__MODULE__, config)
@@ -47,10 +50,10 @@ defmodule Porterage.Scheduler do
   @doc """
   Optional state initialization.
   """
-  @callback init(opts :: map) :: any
+  @callback init(opts :: map) :: state
 
   @doc """
   Execute a run of the scheduler module.
   """
-  @callback tick(state :: any) :: boolean
+  @callback tick(state :: any) :: tick_result
 end

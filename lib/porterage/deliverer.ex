@@ -7,6 +7,9 @@ defmodule Porterage.Deliverer do
 
   alias Porterage.DelivererState
 
+  @type state :: map
+  @type deliver_result :: any
+
   @doc false
   def start_link(config) do
     GenServer.start_link(__MODULE__, config)
@@ -36,10 +39,10 @@ defmodule Porterage.Deliverer do
   @doc """
   Execute a run of the deliverer module.
   """
-  @callback deliver(state :: any, data :: any) :: any
+  @callback deliver(state :: state, data :: any) :: deliver_result
 
   @doc """
   Optional state initialization.
   """
-  @callback init(opts :: map) :: any
+  @callback init(opts :: map) :: state
 end

@@ -1,9 +1,11 @@
 defmodule Porterage.FetcherState do
   @moduledoc false
 
+  alias Porterage.Fetcher
+
   @type t :: %__MODULE__{
           fetcher: module,
-          substate: any,
+          substate: Fetcher.state(),
           supervisor: pid
         }
 
