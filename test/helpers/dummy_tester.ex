@@ -12,10 +12,10 @@ defmodule Porterage.TestHelpers.DummyTester do
   def init(state), do: state
 
   @impl Porterage.Tester
-  def test(%{parent: parent, return_test: return_test, send_test: send_test}) do
+  def test(%{parent: parent, return_test: return_test, send_test: send_test} = state) do
     send(parent, send_test)
-    return_test
+    {state, return_test}
   end
 
-  def test(%{return_test: return_test}), do: return_test
+  def test(%{return_test: return_test} = state), do: {state, return_test}
 end

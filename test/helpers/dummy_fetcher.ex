@@ -12,10 +12,17 @@ defmodule Porterage.TestHelpers.DummyFetcher do
   def init(state), do: state
 
   @impl Porterage.Fetcher
-  def fetch(%{parent: parent, return_fetch: return_fetch, send_fetch: send_fetch}) do
+  def fetch(%{parent: parent, return_fetch: return_fetch, send_fetch: send_fetch} = state) do
     send(parent, send_fetch)
-    return_fetch
+    {:ok, state, return_fetch}
   end
 
-  def fetch(%{return_fetch: return_fetch}), do: return_fetch
+  def fetch(%{return_fetch: return_fetch} = state), do: {:ok, state, return_fetch}
+
+  def fetch(%{parent: parent, send_fetch: send_fetch} = state) do
+    send(parent, send_fetch)
+    {:ok, state}
+  end
+
+  def fetch(state), do: {:ok, state}
 end

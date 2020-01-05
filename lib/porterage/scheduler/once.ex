@@ -6,5 +6,5 @@ defmodule Porterage.Scheduler.Once do
   @behaviour Porterage.Scheduler
 
   @impl Porterage.Scheduler
-  def tick(_), do: true
+  def tick(state), do: {state, true}
 end

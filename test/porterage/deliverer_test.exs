@@ -13,7 +13,7 @@ defmodule Porterage.DelivererTest do
          deliverer: DummyDeliverer,
          deliverer_opts: %{parent: self(), send_init: :init},
          fetcher: DummyFetcher,
-         fetcher_opts: %{return_fetch: {:ok, :some_data}},
+         fetcher_opts: %{return_fetch: :some_data},
          scheduler: DummyScheduler,
          scheduler_opts: %{return_tick: true},
          tester: DummyTester,

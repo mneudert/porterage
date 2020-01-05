@@ -12,10 +12,10 @@ defmodule Porterage.TestHelpers.DummyDeliverer do
   def init(state), do: state
 
   @impl Porterage.Deliverer
-  def deliver(%{parent: parent}, data) do
+  def deliver(%{parent: parent} = state, data) do
     send(parent, data)
-    :ok
+    state
   end
 
-  def deliver(_, _), do: :ok
+  def deliver(state, _), do: state
 end

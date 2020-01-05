@@ -12,7 +12,6 @@ defmodule Porterage.FetcherTest do
          fetcher: DummyFetcher,
          fetcher_opts: %{
            parent: self(),
-           return_fetch: :nodata,
            send_fetch: :fetch,
            send_init: :init
          },

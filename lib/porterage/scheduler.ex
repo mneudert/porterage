@@ -9,7 +9,7 @@ defmodule Porterage.Scheduler do
   alias Porterage.Supervisor
 
   @type state :: map
-  @type tick_result :: boolean
+  @type tick_result :: {state, boolean}
 
   @doc false
   def start_link(config) do
@@ -29,11 +29,13 @@ defmodule Porterage.Scheduler do
   end
 
   def handle_cast(:tick, %SchedulerState{scheduler: scheduler, substate: substate} = state) do
-    if scheduler.tick(substate) do
+    {new_substate, notify?} = scheduler.tick(substate)
+
+    if notify? do
       :ok = notify_tester(state)
     end
 
-    {:noreply, state}
+    {:noreply, %{state | substate: new_substate}}
   end
 
   def handle_info(:tick, state), do: handle_cast(:tick, state)

@@ -8,7 +8,6 @@ defmodule Porterage.Deliverer do
   alias Porterage.DelivererState
 
   @type state :: map
-  @type deliver_result :: any
 
   @doc false
   def start_link(config) do
@@ -29,9 +28,9 @@ defmodule Porterage.Deliverer do
         {:deliver, data},
         %DelivererState{deliverer: deliverer, substate: substate} = state
       ) do
-    deliverer.deliver(substate, data)
+    new_substate = deliverer.deliver(substate, data)
 
-    {:noreply, state}
+    {:noreply, %{state | substate: new_substate}}
   end
 
   @optional_callbacks [init: 1]
@@ -39,7 +38,7 @@ defmodule Porterage.Deliverer do
   @doc """
   Execute a run of the deliverer module.
   """
-  @callback deliver(state :: state, data :: any) :: deliver_result
+  @callback deliver(state :: state, data :: any) :: state
 
   @doc """
   Optional state initialization.

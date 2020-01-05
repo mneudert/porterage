@@ -9,7 +9,7 @@ defmodule Porterage.Fetcher do
   alias Porterage.Supervisor
 
   @type state :: map
-  @type fetch_result :: {:ok, any} | any
+  @type fetch_result :: {:ok, state, any} | {:ok, state}
 
   @doc false
   def start_link(config) do
@@ -27,12 +27,17 @@ defmodule Porterage.Fetcher do
   end
 
   def handle_cast(:fetch, %FetcherState{fetcher: fetcher, substate: substate} = state) do
-    case fetcher.fetch(substate) do
-      {:ok, data} -> notify_deliverer(state, data)
-      _ -> :ok
-    end
+    new_substate =
+      case fetcher.fetch(substate) do
+        {:ok, new_substate, data} ->
+          :ok = notify_deliverer(state, data)
+          new_substate
 
-    {:noreply, state}
+        {:ok, new_substate} ->
+          new_substate
+      end
+
+    {:noreply, %{state | substate: new_substate}}
   end
 
   @optional_callbacks [init: 1]

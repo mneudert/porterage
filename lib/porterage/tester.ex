@@ -9,7 +9,7 @@ defmodule Porterage.Tester do
   alias Porterage.TesterState
 
   @type state :: map
-  @type test_result :: boolean
+  @type test_result :: {state, boolean}
 
   @doc false
   def start_link(config) do
@@ -27,11 +27,13 @@ defmodule Porterage.Tester do
   end
 
   def handle_cast(:test, %TesterState{substate: substate, tester: tester} = state) do
-    if tester.test(substate) do
+    {new_substate, notify?} = tester.test(substate)
+
+    if notify? do
       :ok = notify_fetcher(state)
     end
 
-    {:noreply, state}
+    {:noreply, %{state | substate: new_substate}}
   end
 
   @optional_callbacks [init: 1]

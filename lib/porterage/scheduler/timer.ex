@@ -9,8 +9,8 @@ defmodule Porterage.Scheduler.Timer do
   def init(%{time: _} = state), do: state
 
   @impl Porterage.Scheduler
-  def tick(%{time: send_after}) do
+  def tick(%{time: send_after} = state) do
     Process.send_after(self(), :tick, send_after)
-    true
+    {state, true}
   end
 end
