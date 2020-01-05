@@ -33,6 +33,8 @@ defmodule Porterage.Scheduler do
     {:noreply, state}
   end
 
+  def handle_info(:tick, state), do: handle_cast(:tick, state)
+
   defp notify_tester(%SchedulerState{supervisor: supervisor}) do
     case Supervisor.child(supervisor, Porterage.Tester) do
       tester when is_pid(tester) -> GenServer.cast(tester, :test)
