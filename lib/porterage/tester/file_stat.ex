@@ -1,4 +1,4 @@
-defmodule Porterage.Tester.Fstat do
+defmodule Porterage.Tester.FileStat do
   @moduledoc """
   Tester based on results of `File.stat/1` calls.
   """

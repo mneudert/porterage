@@ -1,8 +1,8 @@
-defmodule Porterage.Scheduler.FstatTest do
+defmodule Porterage.Scheduler.FileStatTest do
   use ExUnit.Case, async: true
 
   alias Porterage.Scheduler.Once
-  alias Porterage.Tester.Fstat
+  alias Porterage.Tester.FileStat
   alias Porterage.TestHelpers.DummyFetcher
 
   test "Initial startup triggers :fetch" do
@@ -10,8 +10,8 @@ defmodule Porterage.Scheduler.FstatTest do
       {Porterage,
        %{
          scheduler: Once,
-         tester: Fstat,
-         tester_opts: %{file: Path.join([__DIR__, "fstat_test.exs"]), stat_key: :mtime},
+         tester: FileStat,
+         tester_opts: %{file: Path.join([__DIR__, "file_stat_test.exs"]), stat_key: :mtime},
          fetcher: DummyFetcher,
          fetcher_opts: %{parent: self(), send_fetch: :fetch}
        }}
