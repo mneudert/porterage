@@ -12,7 +12,7 @@ defmodule Porterage do
 
   @doc false
   def start_link(config) do
-    Supervisor.start_link(__MODULE__, config)
+    Supervisor.start_link(__MODULE__, config, config[:supervisor] || [])
   end
 
   @doc false
