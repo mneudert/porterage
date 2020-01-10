@@ -5,7 +5,7 @@ defmodule Porterage.Tester do
 
   use GenServer
 
-  alias Porterage.Supervisor
+  alias Porterage.SupervisorUtil
   alias Porterage.TesterState
 
   @type state :: map
@@ -49,7 +49,7 @@ defmodule Porterage.Tester do
   @callback test(state :: any) :: test_result
 
   defp notify_fetcher(%TesterState{supervisor: supervisor}) do
-    case Supervisor.child(supervisor, Porterage.Fetcher) do
+    case SupervisorUtil.child(supervisor, Porterage.Fetcher) do
       fetcher when is_pid(fetcher) -> GenServer.cast(fetcher, :fetch)
       _ -> :ok
     end

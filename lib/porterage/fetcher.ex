@@ -6,7 +6,7 @@ defmodule Porterage.Fetcher do
   use GenServer
 
   alias Porterage.FetcherState
-  alias Porterage.Supervisor
+  alias Porterage.SupervisorUtil
 
   @type state :: map
   @type fetch_result :: {:ok, state, any} | {:ok, state}
@@ -53,7 +53,7 @@ defmodule Porterage.Fetcher do
   @callback init(opts :: map) :: state
 
   defp notify_deliverer(%FetcherState{supervisor: supervisor}, data) do
-    case Supervisor.child(supervisor, Porterage.Deliverer) do
+    case SupervisorUtil.child(supervisor, Porterage.Deliverer) do
       deliverer when is_pid(deliverer) -> GenServer.cast(deliverer, {:deliver, data})
       _ -> :ok
     end

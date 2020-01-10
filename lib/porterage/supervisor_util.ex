@@ -1,4 +1,4 @@
-defmodule Porterage.Supervisor do
+defmodule Porterage.SupervisorUtil do
   @moduledoc false
 
   @doc """
