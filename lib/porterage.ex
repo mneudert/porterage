@@ -8,6 +8,7 @@ defmodule Porterage do
   alias Porterage.Deliverer
   alias Porterage.Fetcher
   alias Porterage.Scheduler
+  alias Porterage.SupervisorUtil
   alias Porterage.Tester
 
   @doc false
@@ -25,5 +26,16 @@ defmodule Porterage do
     ]
 
     Supervisor.init(children, strategy: :one_for_one)
+  end
+
+  @doc """
+  Force a tick for a specific instance.
+  """
+  @spec tick(Supervisor.supervisor()) :: :ok | :error
+  def tick(supervisor) do
+    case SupervisorUtil.child(supervisor, Porterage.Scheduler) do
+      scheduler when is_pid(scheduler) -> GenServer.cast(scheduler, :tick)
+      _ -> :error
+    end
   end
 end
