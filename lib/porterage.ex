@@ -29,6 +29,17 @@ defmodule Porterage do
   end
 
   @doc """
+  Force a fetch for a specific instance.
+  """
+  @spec fetch(Supervisor.supervisor()) :: :ok | :error
+  def fetch(supervisor) do
+    case SupervisorUtil.child(supervisor, Porterage.Fetcher) do
+      fetcher when is_pid(fetcher) -> GenServer.cast(fetcher, :fetch)
+      _ -> :error
+    end
+  end
+
+  @doc """
   Force a tick for a specific instance.
   """
   @spec tick(Supervisor.supervisor()) :: :ok | :error

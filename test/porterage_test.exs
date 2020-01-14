@@ -1,6 +1,7 @@
 defmodule PorterageTest do
   use ExUnit.Case, async: true
 
+  alias Porterage.TestHelpers.DummyFetcher
   alias Porterage.TestHelpers.DummyScheduler
 
   test "named supervisor" do
@@ -37,10 +38,33 @@ defmodule PorterageTest do
     assert_receive :tick
   end
 
+  test "allow manual fetching" do
+    sup_name = :porterage_test_named_fetch
+
+    {:ok, sup_pid} =
+      start_supervised({
+        Porterage,
+        %{
+          fetcher: DummyFetcher,
+          fetcher_opts: %{parent: self(), send_fetch: :fetch},
+          scheduler: DummyScheduler,
+          scheduler_opts: %{return_tick: false},
+          supervisor: [name: sup_name]
+        }
+      })
+
+    :ok = Porterage.fetch(sup_name)
+    :ok = Porterage.fetch(sup_pid)
+
+    assert_receive :fetch
+    assert_receive :fetch
+  end
+
   test "return error for invalid instances" do
     sup_opts = [strategy: :one_for_one, name: :porterage_test_error]
     {:ok, sup_pid} = start_supervised({DynamicSupervisor, sup_opts})
 
     assert :error == Porterage.tick(sup_pid)
+    assert :error == Porterage.fetch(sup_pid)
   end
 end
