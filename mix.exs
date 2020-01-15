@@ -9,6 +9,7 @@ defmodule Porterage.MixProject do
       name: "Porterage",
       version: "0.1.0-dev",
       elixir: "~> 1.7",
+      dialyzer: dialyzer(),
       deps: deps(),
       docs: docs(),
       elixirc_paths: elixirc_paths(Mix.env()),
@@ -23,6 +24,17 @@ defmodule Porterage.MixProject do
   end
 
   def application, do: []
+
+  defp dialyzer do
+    [
+      flags: [
+        :error_handling,
+        :race_conditions,
+        :underspecs,
+        :unmatched_returns
+      ]
+    ]
+  end
 
   defp deps do
     [
