@@ -44,6 +44,6 @@ defmodule Porterage.Fetcher.FileReadTest do
        }}
     )
 
-    refute_receive _, 1000
+    refute_receive _, 100
   end
 end
