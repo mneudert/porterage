@@ -40,6 +40,17 @@ defmodule Porterage do
   end
 
   @doc """
+  Force a test for a specific instance.
+  """
+  @spec test(Supervisor.supervisor()) :: :ok | :error
+  def test(supervisor) do
+    case SupervisorUtil.child(supervisor, Porterage.Tester) do
+      tester when is_pid(tester) -> GenServer.cast(tester, :test)
+      _ -> :error
+    end
+  end
+
+  @doc """
   Force a tick for a specific instance.
   """
   @spec tick(Supervisor.supervisor()) :: :ok | :error

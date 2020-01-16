@@ -3,6 +3,7 @@ defmodule PorterageTest do
 
   alias Porterage.TestHelpers.DummyFetcher
   alias Porterage.TestHelpers.DummyScheduler
+  alias Porterage.TestHelpers.DummyTester
 
   test "named supervisor" do
     start_supervised({
@@ -39,6 +40,28 @@ defmodule PorterageTest do
     assert_receive :fetch
   end
 
+  test "allow manual testing" do
+    sup_name = :porterage_test_named_test
+
+    {:ok, sup_pid} =
+      start_supervised({
+        Porterage,
+        %{
+          scheduler: DummyScheduler,
+          scheduler_opts: %{return_tick: false},
+          tester: DummyTester,
+          tester_opts: %{parent: self(), return_test: false, send_test: :test},
+          supervisor: [name: sup_name]
+        }
+      })
+
+    :ok = Porterage.test(sup_name)
+    :ok = Porterage.test(sup_pid)
+
+    assert_receive :test
+    assert_receive :test
+  end
+
   test "allow manual ticking" do
     sup_name = :porterage_test_named_tick
 
@@ -65,6 +88,7 @@ defmodule PorterageTest do
     {:ok, sup_pid} = start_supervised({DynamicSupervisor, sup_opts})
 
     assert :error == Porterage.fetch(sup_pid)
+    assert :error == Porterage.test(sup_pid)
     assert :error == Porterage.tick(sup_pid)
   end
 end
