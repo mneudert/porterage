@@ -15,7 +15,7 @@ defmodule Porterage.Tester.FileStat do
 
     result =
       case stat do
-        {:ok, new_stat} -> new_stat[stat_key] != last_stat[stat_key]
+        {:ok, new_stat} -> Map.get(new_stat, stat_key) != Map.get(last_stat, stat_key)
         {:error, _} -> false
       end
 
