@@ -1,6 +1,42 @@
 defmodule Porterage do
   @moduledoc """
   Porterage
+
+  ## Usage
+
+  Place a porterage instance in your supervision tree:
+
+      {Porterage,
+       %{
+         deliverer: DummyDeliverer,
+         deliverer_opts: %{},
+         fetcher: DummyFetcher,
+         fetcher_opts: %{},
+         scheduler: DummyScheduler,
+         scheduler_opts: %{},
+         tester: DummyTester,
+         tester_opts: %{}
+       }}
+
+  ## Schedulers
+
+  - `Porterage.Scheduler.Never`
+  - `Porterage.Scheduler.Once`
+  - `Porterage.Scheduler.Timer`
+
+  ## Testers
+
+  - `Porterage.Tester.FileStat`
+
+  ## Fetchers
+
+  - `Porterage,Fetcher.FileRead`
+  - `Porterage,Fetcher.MFA`
+
+  ## Deliverers
+
+  - `Porterage.Deliverer.MFA`
+  - `Porterage.Deliverer.Send`
   """
 
   use Supervisor
