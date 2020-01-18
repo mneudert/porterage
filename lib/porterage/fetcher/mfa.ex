@@ -1,6 +1,13 @@
 defmodule Porterage.Fetcher.MFA do
   @moduledoc """
   Fetcher based on usage of `Kernel.apply/3` calls.
+
+  ## Configuration
+
+      {
+        fetcher: Porterage.Fetcher.MFA,
+        fetcher_opts: %{mfa: {mod :: module, function ::  atom, arguments :: list}}
+      }
   """
 
   @behaviour Porterage.Fetcher

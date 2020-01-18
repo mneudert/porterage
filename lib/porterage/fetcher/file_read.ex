@@ -1,6 +1,13 @@
 defmodule Porterage.Fetcher.FileRead do
   @moduledoc """
   Fetcher based on results of `File.read/1` calls.
+
+  ## Configuration
+
+      {
+        fetcher: Porterage.Fetcher.FileRead,
+        fetcher_opts: %{file :: Path.t()}
+      }
   """
 
   @behaviour Porterage.Fetcher

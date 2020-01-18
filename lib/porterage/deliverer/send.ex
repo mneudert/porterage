@@ -1,6 +1,13 @@
 defmodule Porterage.Deliverer.Send do
   @moduledoc """
   Deliverer based on usage of `Kernel.send/2` calls.
+
+  ## Configuration
+
+      {
+        deliverer: Porterage.Deliverer.Send,
+        deliverer_opts: %{dest :: Process.dest()}
+      }
   """
 
   @behaviour Porterage.Deliverer

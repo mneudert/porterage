@@ -1,6 +1,13 @@
 defmodule Porterage.Tester.FileStat do
   @moduledoc """
   Tester based on results of `File.stat/1` calls.
+
+  ## Configuration
+
+      {
+        tester: Porterage.Tester.FileStat,
+        tester_opts: %{file :: Path.t(), stat_key :: atom}
+      }
   """
 
   @behaviour Porterage.Tester

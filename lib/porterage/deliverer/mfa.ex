@@ -3,6 +3,16 @@ defmodule Porterage.Deliverer.MFA do
   Deliverer based on usage of `Kernel.apply/3` calls.
 
   Data to be delivered will be passed as the first argument.
+
+  ## Configuration
+
+      {
+        deliverer: Porterage.Deliverer.MFA,
+        deliverer_opts: %{mfa: {mod :: module, function ::  atom, arguments :: list}}
+      }
+
+  Data to be delivered will always be passed as the first argument with all
+  configured arguments afterwards.
   """
 
   @behaviour Porterage.Deliverer

@@ -1,6 +1,13 @@
 defmodule Porterage.Scheduler.Timer do
   @moduledoc """
   Scheduler triggering repeatedly after configurable time.
+
+  ## Configuration
+
+      {
+        scheduler: Porterage.Scheduler.Timer,
+        scheduler_opts: %{time :: non_neg_integer}
+      }
   """
 
   @behaviour Porterage.Scheduler
