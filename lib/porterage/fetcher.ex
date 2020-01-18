@@ -6,7 +6,6 @@ defmodule Porterage.Fetcher do
   use GenServer
 
   alias Porterage.FetcherState
-  alias Porterage.SupervisorUtil
 
   @type state :: map
   @type fetch_result :: {:ok, state, any} | {:ok, state}
@@ -26,11 +25,14 @@ defmodule Porterage.Fetcher do
     {:ok, %FetcherState{fetcher: fetcher, substate: substate, supervisor: supervisor}}
   end
 
-  def handle_cast(:fetch, %FetcherState{fetcher: fetcher, substate: substate} = state) do
+  def handle_cast(
+        :fetch,
+        %FetcherState{fetcher: fetcher, substate: substate, supervisor: supervisor} = state
+      ) do
     new_substate =
       case fetcher.fetch(substate) do
         {:ok, new_substate, data} ->
-          :ok = notify_deliverer(state, data)
+          :ok = Porterage.deliver(supervisor, data)
           new_substate
 
         {:ok, new_substate} ->
@@ -51,11 +53,4 @@ defmodule Porterage.Fetcher do
   Optional state initialization.
   """
   @callback init(opts :: map) :: state
-
-  defp notify_deliverer(%FetcherState{supervisor: supervisor}, data) do
-    case SupervisorUtil.child(supervisor, Porterage.Deliverer) do
-      deliverer when is_pid(deliverer) -> GenServer.cast(deliverer, {:deliver, data})
-      _ -> :ok
-    end
-  end
 end

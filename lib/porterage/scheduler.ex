@@ -6,7 +6,6 @@ defmodule Porterage.Scheduler do
   use GenServer
 
   alias Porterage.SchedulerState
-  alias Porterage.SupervisorUtil
 
   @type state :: map
   @type tick_result :: {state, boolean}
@@ -28,24 +27,20 @@ defmodule Porterage.Scheduler do
     {:ok, %SchedulerState{scheduler: scheduler, substate: substate, supervisor: supervisor}}
   end
 
-  def handle_cast(:tick, %SchedulerState{scheduler: scheduler, substate: substate} = state) do
+  def handle_cast(
+        :tick,
+        %SchedulerState{scheduler: scheduler, substate: substate, supervisor: supervisor} = state
+      ) do
     {new_substate, notify?} = scheduler.tick(substate)
 
     if notify? do
-      :ok = notify_tester(state)
+      :ok = Porterage.test(supervisor)
     end
 
     {:noreply, %{state | substate: new_substate}}
   end
 
   def handle_info(:tick, state), do: handle_cast(:tick, state)
-
-  defp notify_tester(%SchedulerState{supervisor: supervisor}) do
-    case SupervisorUtil.child(supervisor, Porterage.Tester) do
-      tester when is_pid(tester) -> GenServer.cast(tester, :test)
-      _ -> :ok
-    end
-  end
 
   @optional_callbacks [init: 1]
 

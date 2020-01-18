@@ -5,7 +5,6 @@ defmodule Porterage.Tester do
 
   use GenServer
 
-  alias Porterage.SupervisorUtil
   alias Porterage.TesterState
 
   @type state :: map
@@ -26,11 +25,14 @@ defmodule Porterage.Tester do
     {:ok, %TesterState{substate: substate, supervisor: supervisor, tester: tester}}
   end
 
-  def handle_cast(:test, %TesterState{substate: substate, tester: tester} = state) do
+  def handle_cast(
+        :test,
+        %TesterState{substate: substate, supervisor: supervisor, tester: tester} = state
+      ) do
     {new_substate, notify?} = tester.test(substate)
 
     if notify? do
-      :ok = notify_fetcher(state)
+      :ok = Porterage.fetch(supervisor)
     end
 
     {:noreply, %{state | substate: new_substate}}
@@ -47,11 +49,4 @@ defmodule Porterage.Tester do
   Execute a run of the tester module.
   """
   @callback test(state :: any) :: test_result
-
-  defp notify_fetcher(%TesterState{supervisor: supervisor}) do
-    case SupervisorUtil.child(supervisor, Porterage.Fetcher) do
-      fetcher when is_pid(fetcher) -> GenServer.cast(fetcher, :fetch)
-      _ -> :ok
-    end
-  end
 end
