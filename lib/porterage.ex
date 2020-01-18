@@ -45,6 +45,17 @@ defmodule Porterage do
   end
 
   @doc """
+  Force a delivery for a specific instance with custom data.
+  """
+  @spec deliver(Supervisor.supervisor(), any) :: :ok | :error
+  def deliver(supervisor, data) do
+    case SupervisorUtil.child(supervisor, Porterage.Deliverer) do
+      deliverer when is_pid(deliverer) -> GenServer.cast(deliverer, {:deliver, data})
+      _ -> :error
+    end
+  end
+
+  @doc """
   Force a fetch for a specific instance.
   """
   @spec fetch(Supervisor.supervisor()) :: :ok | :error
