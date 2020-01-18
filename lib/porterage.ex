@@ -8,35 +8,15 @@ defmodule Porterage do
 
       {Porterage,
        %{
-         deliverer: DummyDeliverer,
+         deliverer: MyDeliverer,
          deliverer_opts: %{},
-         fetcher: DummyFetcher,
+         fetcher: MyFetcher,
          fetcher_opts: %{},
-         scheduler: DummyScheduler,
+         scheduler: MyScheduler,
          scheduler_opts: %{},
-         tester: DummyTester,
+         tester: MyTester,
          tester_opts: %{}
        }}
-
-  ## Schedulers
-
-  - `Porterage.Scheduler.Never`
-  - `Porterage.Scheduler.Once`
-  - `Porterage.Scheduler.Timer`
-
-  ## Testers
-
-  - `Porterage.Tester.FileStat`
-
-  ## Fetchers
-
-  - `Porterage,Fetcher.FileRead`
-  - `Porterage,Fetcher.MFA`
-
-  ## Deliverers
-
-  - `Porterage.Deliverer.MFA`
-  - `Porterage.Deliverer.Send`
   """
 
   use Supervisor

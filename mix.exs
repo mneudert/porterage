@@ -47,6 +47,24 @@ defmodule Porterage.MixProject do
 
   defp docs do
     [
+      groups_for_modules: [
+        Deliverers: [
+          Porterage.Deliverer.MFA,
+          Porterage.Deliverer.Send
+        ],
+        Fetchers: [
+          Porterage.Fetcher.FileRead,
+          Porterage.Fetcher.MFA
+        ],
+        Schedulers: [
+          Porterage.Scheduler.Never,
+          Porterage.Scheduler.Once,
+          Porterage.Scheduler.Timer
+        ],
+        Testers: [
+          Porterage.Tester.FileStat
+        ]
+      ],
       main: "Porterage",
       source_ref: "master",
       source_url: @url_github
