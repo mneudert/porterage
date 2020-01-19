@@ -6,9 +6,13 @@ defmodule Porterage.Fetcher.MFA do
 
       {
         fetcher: Porterage.Fetcher.MFA,
-        fetcher_opts: %{mfa: {mod :: module, function ::  atom, arguments :: list}}
+        fetcher_opts: %{mfa: {_, _, _}}
       }
+
+  See `t:options/0` for a specification of available options.
   """
+
+  @type options :: %{mfa: {module, atom, [any]}}
 
   @behaviour Porterage.Fetcher
 

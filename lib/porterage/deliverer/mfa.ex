@@ -8,12 +8,16 @@ defmodule Porterage.Deliverer.MFA do
 
       {
         deliverer: Porterage.Deliverer.MFA,
-        deliverer_opts: %{mfa: {mod :: module, function ::  atom, arguments :: list}}
+        deliverer_opts: %{mfa: {_, _, _}}
       }
 
   Data to be delivered will always be passed as the first argument with all
   configured arguments afterwards.
+
+  See `t:options/0` for a specification of available options.
   """
+
+  @type options :: %{mfa: {module, atom, [any]}}
 
   @behaviour Porterage.Deliverer
 

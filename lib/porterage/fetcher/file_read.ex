@@ -6,9 +6,13 @@ defmodule Porterage.Fetcher.FileRead do
 
       {
         fetcher: Porterage.Fetcher.FileRead,
-        fetcher_opts: %{file :: Path.t()}
+        fetcher_opts: %{file: _}
       }
+
+  See `t:options/0` for a specification of available options.
   """
+
+  @type options :: %{file: Path.t()}
 
   @behaviour Porterage.Fetcher
 

@@ -6,9 +6,13 @@ defmodule Porterage.Deliverer.Send do
 
       {
         deliverer: Porterage.Deliverer.Send,
-        deliverer_opts: %{dest :: Process.dest()}
+        deliverer_opts: %{dest: _}
       }
+
+  See `t:options/0` for a specification of available options.
   """
+
+  @type options :: %{dest: Process.dest()}
 
   @behaviour Porterage.Deliverer
 

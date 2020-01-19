@@ -6,9 +6,13 @@ defmodule Porterage.Scheduler.Timer do
 
       {
         scheduler: Porterage.Scheduler.Timer,
-        scheduler_opts: %{time :: non_neg_integer}
+        scheduler_opts: %{time: _}
       }
+
+  See `t:options/0` for a specification of available options.
   """
+
+  @type options :: %{time: non_neg_integer}
 
   @behaviour Porterage.Scheduler
 

@@ -6,9 +6,13 @@ defmodule Porterage.Tester.FileStat do
 
       {
         tester: Porterage.Tester.FileStat,
-        tester_opts: %{file :: Path.t(), stat_key :: atom}
+        tester_opts: %{file: _, stat_key: _}
       }
+
+  See `t:options/0` for a specification of available options.
   """
+
+  @type options :: %{file: Path.t(), stat_key: atom}
 
   @behaviour Porterage.Tester
 
