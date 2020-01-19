@@ -6,13 +6,13 @@ defmodule Porterage.Scheduler.FileStatTest do
   alias Porterage.TestHelpers.DummyFetcher
   alias Porterage.TestHelpers.DummyScheduler
 
-  test "Initial startup triggers :fetch" do
+  test "initial startup triggers :fetch" do
     start_supervised(
       {Porterage,
        %{
          scheduler: Once,
          tester: FileStat,
-         tester_opts: %{file: Path.join([__DIR__, "file_stat_test.exs"]), stat_key: :mtime},
+         tester_opts: %{file: Path.join(__DIR__, "file_stat_test.exs"), stat_key: :mtime},
          fetcher: DummyFetcher,
          fetcher_opts: %{parent: self(), send_fetch: :fetch}
        }}
@@ -21,7 +21,7 @@ defmodule Porterage.Scheduler.FileStatTest do
     assert_receive :fetch
   end
 
-  test "Unchanged file only triggers :fetch once" do
+  test "unchanged file only triggers :fetch once" do
     {:ok, sup_pid} =
       start_supervised(
         {Porterage,
@@ -29,7 +29,7 @@ defmodule Porterage.Scheduler.FileStatTest do
            scheduler: DummyScheduler,
            scheduler_opts: %{return_tick: false},
            tester: FileStat,
-           tester_opts: %{file: Path.join([__DIR__, "file_stat_test.exs"]), stat_key: :mtime},
+           tester_opts: %{file: Path.join(__DIR__, "file_stat_test.exs"), stat_key: :mtime},
            fetcher: DummyFetcher,
            fetcher_opts: %{parent: self(), send_fetch: :fetch}
          }}

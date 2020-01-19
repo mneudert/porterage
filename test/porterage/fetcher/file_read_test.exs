@@ -14,7 +14,7 @@ defmodule Porterage.Fetcher.FileReadTest do
          deliverer_opts: %{parent: self()},
          fetcher: FileRead,
          fetcher_opts: %{
-           file: Path.join([__DIR__, "file_read_test.exs"])
+           file: Path.join(__DIR__, "file_read_test.exs")
          },
          scheduler: DummyScheduler,
          scheduler_opts: %{return_tick: true},
@@ -35,7 +35,7 @@ defmodule Porterage.Fetcher.FileReadTest do
          deliverer_opts: %{parent: self()},
          fetcher: FileRead,
          fetcher_opts: %{
-           file: Path.join([__DIR__, "file-that-does-not-exist"])
+           file: Path.join(__DIR__, "file-that-does-not-exist")
          },
          scheduler: DummyScheduler,
          scheduler_opts: %{return_tick: true},
