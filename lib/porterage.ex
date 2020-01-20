@@ -19,6 +19,8 @@ defmodule Porterage do
          tester_opts: %{}
        }}
 
+  See `t:config/0` for a specification of the available configuration keys.
+
   ### Supervisor Configuration
 
   If a `:supervisor` key is set the values are passed
@@ -33,12 +35,26 @@ defmodule Porterage do
   alias Porterage.SupervisorUtil
   alias Porterage.Tester
 
+  @type config :: %{
+          :deliverer => module,
+          :fetcher => module,
+          :scheduler => module,
+          :tester => module,
+          optional(:deliverer_opts) => map,
+          optional(:fetcher_opts) => map,
+          optional(:scheduler_opts) => map,
+          optional(:supervisor) => Supervisor.options(),
+          optional(:tester_opts) => map
+        }
+
   @doc false
+  @spec start_link(config) :: Supervisor.on_start()
   def start_link(config) do
     Supervisor.start_link(__MODULE__, config, config[:supervisor] || [])
   end
 
   @doc false
+  @spec init(config) :: {:ok, {:supervisor.sup_flags(), [:supervisor.child_spec()]}}
   def init(config) do
     children = [
       {Scheduler, [self(), config[:scheduler], config[:scheduler_opts]]},
