@@ -14,9 +14,15 @@ defmodule Porterage do
          fetcher_opts: %{},
          scheduler: MyScheduler,
          scheduler_opts: %{},
+         supervisor: [],
          tester: MyTester,
          tester_opts: %{}
        }}
+
+  ### Supervisor Configuration
+
+  If a `:supervisor` key is set the values are passed
+  as the options argument to `Supervisor.start_link/3`.
   """
 
   use Supervisor
