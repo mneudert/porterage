@@ -52,7 +52,7 @@ defmodule Porterage.Scheduler.FileStatTest do
   test "changed file triggers :fetch" do
     file = Path.join(__DIR__, "../../temp/file_stat_change_test")
 
-    File.touch(file, System.os_time(:second) - 60)
+    File.touch(file, {{2000, 12, 12}, {12, 12, 12}})
 
     {:ok, sup_pid} =
       start_supervised(
