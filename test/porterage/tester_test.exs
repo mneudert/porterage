@@ -18,4 +18,10 @@ defmodule Porterage.TesterTest do
     assert_receive :init
     assert_receive :test
   end
+
+  test "missing tester is ignored" do
+    sup_pid = start_supervised!({Porterage, %{}})
+
+    assert :error == Porterage.test(sup_pid)
+  end
 end
