@@ -25,4 +25,10 @@ defmodule Porterage.FetcherTest do
     assert_receive :init
     assert_receive :fetch
   end
+
+  test "missing fetcher is ignored" do
+    sup_pid = start_supervised!({Porterage, %{}})
+
+    assert :error == Porterage.fetch(sup_pid)
+  end
 end

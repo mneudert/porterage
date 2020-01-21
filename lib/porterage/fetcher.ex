@@ -11,6 +11,8 @@ defmodule Porterage.Fetcher do
   @type fetch_result :: {:ok, state, any} | {:ok, state}
 
   @doc false
+  def start_link([_, nil, _]), do: :ignore
+
   def start_link(config) do
     GenServer.start_link(__MODULE__, config)
   end
