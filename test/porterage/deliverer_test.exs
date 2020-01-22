@@ -24,4 +24,10 @@ defmodule Porterage.DelivererTest do
     assert_receive :init
     assert_receive :some_data
   end
+
+  test "missing deliverer is ignored" do
+    sup_pid = start_supervised!({Porterage, %{}})
+
+    assert :error == Porterage.deliver(sup_pid, :some_data)
+  end
 end
