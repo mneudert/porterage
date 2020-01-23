@@ -105,13 +105,4 @@ defmodule PorterageTest do
     assert_receive :tick
     assert_receive :tick
   end
-
-  test "return error for invalid instances" do
-    sup_opts = [strategy: :one_for_one, name: :porterage_test_error]
-    {:ok, sup_pid} = start_supervised({DynamicSupervisor, sup_opts})
-
-    assert :error == Porterage.fetch(sup_pid)
-    assert :error == Porterage.test(sup_pid)
-    assert :error == Porterage.tick(sup_pid)
-  end
 end

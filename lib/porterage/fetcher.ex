@@ -5,6 +5,8 @@ defmodule Porterage.Fetcher do
 
   use GenServer
 
+  require Logger
+
   alias Porterage.FetcherState
 
   @type state :: map
@@ -13,14 +15,19 @@ defmodule Porterage.Fetcher do
   @doc false
   def start_link([_, nil, _]), do: :ignore
 
-  def start_link(config) do
-    GenServer.start_link(__MODULE__, config)
+  def start_link([_, fetcher, _] = config) do
+    if Code.ensure_loaded?(fetcher) do
+      GenServer.start_link(__MODULE__, config)
+    else
+      _ = Logger.warn("Could not load fetcher module: #{fetcher}")
+      :ignore
+    end
   end
 
   @doc false
   def init([supervisor, fetcher, opts]) do
     substate =
-      if Code.ensure_loaded?(fetcher) and function_exported?(fetcher, :init, 1) do
+      if function_exported?(fetcher, :init, 1) do
         fetcher.init(opts)
       end
 

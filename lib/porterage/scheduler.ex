@@ -5,6 +5,8 @@ defmodule Porterage.Scheduler do
 
   use GenServer
 
+  require Logger
+
   alias Porterage.SchedulerState
 
   @type state :: map
@@ -13,14 +15,19 @@ defmodule Porterage.Scheduler do
   @doc false
   def start_link([_, nil, _]), do: :ignore
 
-  def start_link(config) do
-    GenServer.start_link(__MODULE__, config)
+  def start_link([_, scheduler, _] = config) do
+    if Code.ensure_loaded?(scheduler) do
+      GenServer.start_link(__MODULE__, config)
+    else
+      _ = Logger.warn("Could not load scheduler module: #{scheduler}")
+      :ignore
+    end
   end
 
   @doc false
   def init([supervisor, scheduler, opts]) do
     substate =
-      if Code.ensure_loaded?(scheduler) and function_exported?(scheduler, :init, 1) do
+      if function_exported?(scheduler, :init, 1) do
         scheduler.init(opts)
       end
 

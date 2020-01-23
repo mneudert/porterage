@@ -5,6 +5,8 @@ defmodule Porterage.Tester do
 
   use GenServer
 
+  require Logger
+
   alias Porterage.TesterState
 
   @type state :: map
@@ -13,14 +15,19 @@ defmodule Porterage.Tester do
   @doc false
   def start_link([_, nil, _]), do: :ignore
 
-  def start_link(config) do
-    GenServer.start_link(__MODULE__, config)
+  def start_link([_, tester, _] = config) do
+    if Code.ensure_loaded?(tester) do
+      GenServer.start_link(__MODULE__, config)
+    else
+      _ = Logger.warn("Could not load tester module: #{tester}")
+      :ignore
+    end
   end
 
   @doc false
   def init([supervisor, tester, opts]) do
     substate =
-      if Code.ensure_loaded?(tester) and function_exported?(tester, :init, 1) do
+      if function_exported?(tester, :init, 1) do
         tester.init(opts)
       end
 

@@ -5,6 +5,8 @@ defmodule Porterage.Deliverer do
 
   use GenServer
 
+  require Logger
+
   alias Porterage.DelivererState
 
   @type state :: map
@@ -12,14 +14,19 @@ defmodule Porterage.Deliverer do
   @doc false
   def start_link([_, nil, _]), do: :ignore
 
-  def start_link(config) do
-    GenServer.start_link(__MODULE__, config)
+  def start_link([_, deliverer, _] = config) do
+    if Code.ensure_loaded?(deliverer) do
+      GenServer.start_link(__MODULE__, config)
+    else
+      _ = Logger.warn("Could not load deliverer module: #{deliverer}")
+      :ignore
+    end
   end
 
   @doc false
   def init([supervisor, deliverer, opts]) do
     substate =
-      if Code.ensure_loaded?(deliverer) and function_exported?(deliverer, :init, 1) do
+      if function_exported?(deliverer, :init, 1) do
         deliverer.init(opts)
       end
 
