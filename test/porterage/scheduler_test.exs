@@ -15,10 +15,4 @@ defmodule Porterage.SchedulerTest do
     assert_receive :init
     assert_receive :tick
   end
-
-  test "missing scheduler is ignored" do
-    sup_pid = start_supervised!({Porterage, %{}})
-
-    assert :error == Porterage.tick(sup_pid)
-  end
 end
