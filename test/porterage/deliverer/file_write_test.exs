@@ -2,9 +2,6 @@ defmodule Porterage.Deliverer.FileWriteTest do
   use ExUnit.Case, async: true
 
   alias Porterage.Deliverer.FileWrite
-  alias Porterage.TestHelpers.DummyFetcher
-  alias Porterage.TestHelpers.DummyScheduler
-  alias Porterage.TestHelpers.DummyTester
 
   test "data written to configured file" do
     contents = "some data"
@@ -12,21 +9,18 @@ defmodule Porterage.Deliverer.FileWriteTest do
 
     File.rm(file)
 
-    start_supervised(
-      {Porterage,
-       %{
-         deliverer: FileWrite,
-         deliverer_opts: %{file: file},
-         fetcher: DummyFetcher,
-         fetcher_opts: %{return_fetch: contents},
-         scheduler: DummyScheduler,
-         scheduler_opts: %{return_tick: true},
-         tester: DummyTester,
-         tester_opts: %{return_test: true}
-       }}
-    )
+    {:ok, sup_pid} =
+      start_supervised(
+        {Porterage,
+         %{
+           deliverer: FileWrite,
+           deliverer_opts: %{file: file}
+         }}
+      )
 
-    :timer.sleep(100)
+    Porterage.deliver(sup_pid, contents)
+
+    :timer.sleep(50)
 
     assert File.regular?(file)
     assert {:ok, ^contents} = File.read(file)
