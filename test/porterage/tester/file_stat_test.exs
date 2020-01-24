@@ -1,25 +1,8 @@
 defmodule Porterage.Scheduler.FileStatTest do
   use ExUnit.Case, async: true
 
-  alias Porterage.Scheduler.Once
   alias Porterage.Tester.FileStat
   alias Porterage.TestHelpers.DummyFetcher
-  alias Porterage.TestHelpers.DummyScheduler
-
-  test "initial startup triggers :fetch" do
-    start_supervised(
-      {Porterage,
-       %{
-         scheduler: Once,
-         tester: FileStat,
-         tester_opts: %{file: Path.join(__DIR__, "file_stat_test.exs"), stat_key: :mtime},
-         fetcher: DummyFetcher,
-         fetcher_opts: %{parent: self(), send_fetch: :fetch}
-       }}
-    )
-
-    assert_receive :fetch
-  end
 
   test "deleted file does not trigger :fetch" do
     file = Path.join(__DIR__, "../../temp/file_stat_delete_test")
@@ -30,8 +13,6 @@ defmodule Porterage.Scheduler.FileStatTest do
       start_supervised(
         {Porterage,
          %{
-           scheduler: DummyScheduler,
-           scheduler_opts: %{return_tick: false},
            tester: FileStat,
            tester_opts: %{file: file, stat_key: :mtime},
            fetcher: DummyFetcher,
@@ -58,8 +39,6 @@ defmodule Porterage.Scheduler.FileStatTest do
       start_supervised(
         {Porterage,
          %{
-           scheduler: DummyScheduler,
-           scheduler_opts: %{return_tick: false},
            tester: FileStat,
            tester_opts: %{file: file, stat_key: :mtime},
            fetcher: DummyFetcher,
@@ -84,8 +63,6 @@ defmodule Porterage.Scheduler.FileStatTest do
       start_supervised(
         {Porterage,
          %{
-           scheduler: DummyScheduler,
-           scheduler_opts: %{return_tick: false},
            tester: FileStat,
            tester_opts: %{file: Path.join(__DIR__, "file_stat_test.exs"), stat_key: :mtime},
            fetcher: DummyFetcher,
