@@ -3,15 +3,12 @@ defmodule PorterageTest do
 
   alias Porterage.TestHelpers.DummyDeliverer
   alias Porterage.TestHelpers.DummyFetcher
-  alias Porterage.TestHelpers.DummyScheduler
   alias Porterage.TestHelpers.DummyTester
 
   test "named supervisor" do
     start_supervised({
       Porterage,
       %{
-        scheduler: DummyScheduler,
-        scheduler_opts: %{return_tick: false},
         supervisor: [name: :porterage_test_named]
       }
     })
@@ -26,8 +23,6 @@ defmodule PorterageTest do
       start_supervised({
         Porterage,
         %{
-          scheduler: DummyScheduler,
-          scheduler_opts: %{return_tick: false},
           deliverer: DummyDeliverer,
           deliverer_opts: %{parent: self()},
           supervisor: [name: sup_name]
@@ -50,8 +45,6 @@ defmodule PorterageTest do
         %{
           fetcher: DummyFetcher,
           fetcher_opts: %{parent: self(), send_fetch: :fetch},
-          scheduler: DummyScheduler,
-          scheduler_opts: %{return_tick: false},
           supervisor: [name: sup_name]
         }
       })
@@ -70,8 +63,6 @@ defmodule PorterageTest do
       start_supervised({
         Porterage,
         %{
-          scheduler: DummyScheduler,
-          scheduler_opts: %{return_tick: false},
           tester: DummyTester,
           tester_opts: %{parent: self(), return_test: false, send_test: :test},
           supervisor: [name: sup_name]
