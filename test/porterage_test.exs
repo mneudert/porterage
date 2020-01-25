@@ -3,6 +3,7 @@ defmodule PorterageTest do
 
   alias Porterage.TestHelpers.DummyDeliverer
   alias Porterage.TestHelpers.DummyFetcher
+  alias Porterage.TestHelpers.DummyScheduler
   alias Porterage.TestHelpers.DummyTester
 
   test "named supervisor" do
