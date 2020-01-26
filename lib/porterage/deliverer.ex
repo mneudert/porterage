@@ -1,6 +1,6 @@
 defmodule Porterage.Deliverer do
   @moduledoc """
-  Porterage deliverer
+  Delivers a data package to a configured destination.
   """
 
   use GenServer

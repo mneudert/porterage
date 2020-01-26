@@ -1,6 +1,6 @@
 defmodule Porterage.Scheduler do
   @moduledoc """
-  Porterage scheduler
+  Takes care of (periodically) triggering the chosen tester module.
   """
 
   use GenServer

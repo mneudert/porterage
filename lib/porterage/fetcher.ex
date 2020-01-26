@@ -1,6 +1,6 @@
 defmodule Porterage.Fetcher do
   @moduledoc """
-  Porterage fetcher
+  Tries to fetch the configured data source and pass it on for delivery.
   """
 
   use GenServer

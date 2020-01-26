@@ -1,6 +1,6 @@
 defmodule Porterage.Tester do
   @moduledoc """
-  Porterage tester
+  Tests if data should be fetched and delivered after the last scheduler tick.
   """
 
   use GenServer
