@@ -51,6 +51,7 @@ defmodule Porterage.MixProject do
     [
       groups_for_modules: [
         Deliverers: [
+          Porterage.Deliverer.FileWrite,
           Porterage.Deliverer.MFA,
           Porterage.Deliverer.Send
         ],
@@ -59,12 +60,14 @@ defmodule Porterage.MixProject do
           Porterage.Fetcher.MFA
         ],
         Schedulers: [
+          Porterage.Scheduler.MFA,
           Porterage.Scheduler.Never,
           Porterage.Scheduler.Once,
           Porterage.Scheduler.Timer
         ],
         Testers: [
-          Porterage.Tester.FileStat
+          Porterage.Tester.FileStat,
+          Porterage.Tester.MFA
         ]
       ],
       main: "Porterage",
