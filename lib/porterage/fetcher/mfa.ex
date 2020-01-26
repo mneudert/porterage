@@ -2,6 +2,9 @@ defmodule Porterage.Fetcher.MFA do
   @moduledoc """
   Fetcher based on usage of `Kernel.apply/3` calls.
 
+  The configured callable is expected to return `{:ok, term}` if data has been
+  fetched. Any other return value will be ignored.
+
   ## Configuration
 
       {
