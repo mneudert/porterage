@@ -1,5 +1,7 @@
 # Porterage
 
+Checks, fetches and delivers configurable datasources.
+
 ## Setup
 
 Add the library as a dependency to your `mix.exs` file:
