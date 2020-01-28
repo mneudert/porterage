@@ -44,7 +44,9 @@ defmodule Porterage do
           optional(:deliverer_opts) => map,
           optional(:fetcher_opts) => map,
           optional(:scheduler_opts) => map,
-          optional(:supervisor) => Supervisor.options(),
+          optional(:supervisor) => [
+            Supervisor.option() | Supervisor.init_option()
+          ],
           optional(:tester_opts) => map
         }
 
