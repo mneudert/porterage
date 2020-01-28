@@ -4,30 +4,24 @@ defmodule Porterage.Tester.MFATest do
   alias Porterage.Tester.MFA
 
   test "test result defined by configured callable" do
-    parent = self()
-
-    Code.compile_quoted(
-      quote do
-        defmodule MFATester do
-          def test(nil) do
-            send(unquote(parent), :first)
-            {:first, false}
-          end
-
-          def test(:first) do
-            send(unquote(parent), :second)
-            {:second, false}
-          end
-        end
+    defmodule MFATester do
+      def test(nil, notify_pid) do
+        send(notify_pid, :first)
+        {:first, false}
       end
-    )
+
+      def test(:first, notify_pid) do
+        send(notify_pid, :second)
+        {:second, false}
+      end
+    end
 
     {:ok, sup_pid} =
       start_supervised(
         {Porterage,
          %{
            tester: MFA,
-           tester_opts: %{mfa: {MFATester, :test, []}}
+           tester_opts: %{mfa: {MFATester, :test, [self()]}}
          }}
       )
 

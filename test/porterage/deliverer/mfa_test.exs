@@ -4,22 +4,16 @@ defmodule Porterage.Deliverer.MFATest do
   alias Porterage.Deliverer.MFA
 
   test "data delivered to configured pid" do
-    parent = self()
-
-    Code.compile_quoted(
-      quote do
-        defmodule MFADeliverer do
-          def send(data), do: send(unquote(parent), data)
-        end
-      end
-    )
+    defmodule MFADeliverer do
+      def deliver(data, notify_pid), do: send(notify_pid, data)
+    end
 
     {:ok, sup_pid} =
       start_supervised(
         {Porterage,
          %{
            deliverer: MFA,
-           deliverer_opts: %{mfa: {MFADeliverer, :send, []}}
+           deliverer_opts: %{mfa: {MFADeliverer, :deliver, [self()]}}
          }}
       )
 
