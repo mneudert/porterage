@@ -9,7 +9,7 @@ defmodule Porterage.Tester do
 
   alias Porterage.TesterState
 
-  @type state :: map
+  @type state :: any
   @type test_result :: {state, boolean}
 
   @doc false

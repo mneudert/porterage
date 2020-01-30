@@ -9,7 +9,7 @@ defmodule Porterage.Fetcher do
 
   alias Porterage.FetcherState
 
-  @type state :: map
+  @type state :: any
   @type fetch_result :: {:ok, state, any} | {:ok, state}
 
   @doc false

@@ -9,7 +9,7 @@ defmodule Porterage.Deliverer do
 
   alias Porterage.DelivererState
 
-  @type state :: map
+  @type state :: any
 
   @doc false
   def start_link([_, nil, _]), do: :ignore

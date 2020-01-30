@@ -9,7 +9,7 @@ defmodule Porterage.Scheduler do
 
   alias Porterage.SchedulerState
 
-  @type state :: map
+  @type state :: any
   @type tick_result :: {state, boolean}
 
   @doc false
