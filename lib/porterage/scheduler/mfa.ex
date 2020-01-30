@@ -7,7 +7,7 @@ defmodule Porterage.Scheduler.MFA do
 
       GenServer.cast(self(), :tick)
       Kernel.send(self(), :tick)
-      Process.send_after(self(), :tick, send_after )
+      Process.send_after(self(), :tick, send_after)
 
   ## Configuration
 
