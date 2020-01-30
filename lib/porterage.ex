@@ -33,7 +33,6 @@ defmodule Porterage do
   alias Porterage.Deliverer
   alias Porterage.Fetcher
   alias Porterage.Scheduler
-  alias Porterage.SupervisorUtil
   alias Porterage.Tester
 
   @type config :: %{
@@ -74,7 +73,7 @@ defmodule Porterage do
   """
   @spec deliver(Supervisor.supervisor(), any) :: :ok | :error
   def deliver(supervisor, data) do
-    case SupervisorUtil.child(supervisor, Porterage.Deliverer) do
+    case child(supervisor, Porterage.Deliverer) do
       deliverer when is_pid(deliverer) -> GenServer.cast(deliverer, {:deliver, data})
       _ -> :error
     end
@@ -85,7 +84,7 @@ defmodule Porterage do
   """
   @spec fetch(Supervisor.supervisor()) :: :ok | :error
   def fetch(supervisor) do
-    case SupervisorUtil.child(supervisor, Porterage.Fetcher) do
+    case child(supervisor, Porterage.Fetcher) do
       fetcher when is_pid(fetcher) -> GenServer.cast(fetcher, :fetch)
       _ -> :error
     end
@@ -96,7 +95,7 @@ defmodule Porterage do
   """
   @spec test(Supervisor.supervisor()) :: :ok | :error
   def test(supervisor) do
-    case SupervisorUtil.child(supervisor, Porterage.Tester) do
+    case child(supervisor, Porterage.Tester) do
       tester when is_pid(tester) -> GenServer.cast(tester, :test)
       _ -> :error
     end
@@ -107,9 +106,19 @@ defmodule Porterage do
   """
   @spec tick(Supervisor.supervisor()) :: :ok | :error
   def tick(supervisor) do
-    case SupervisorUtil.child(supervisor, Porterage.Scheduler) do
+    case child(supervisor, Porterage.Scheduler) do
       scheduler when is_pid(scheduler) -> GenServer.cast(scheduler, :tick)
       _ -> :error
     end
   end
+
+  defp child(supervisor, id) do
+    supervisor
+    |> Supervisor.which_children()
+    |> find_child(id)
+  end
+
+  defp find_child([], _), do: nil
+  defp find_child([{id, pid, :worker, _} | _], id), do: pid
+  defp find_child([_ | children], id), do: find_child(children, id)
 end
