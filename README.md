@@ -1,6 +1,6 @@
 # Porterage
 
-Checks, fetches and delivers configurable datasources.
+Checks, fetches and delivers configurable data sources.
 
 ## Setup
 

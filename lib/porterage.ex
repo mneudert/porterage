@@ -1,7 +1,7 @@
 defmodule Porterage do
   @moduledoc """
 
-  Checks, fetches and delivers configurable datasources.
+  Checks, fetches and delivers configurable data sources.
 
   ## Usage
 

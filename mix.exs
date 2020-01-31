@@ -11,7 +11,7 @@ defmodule Porterage.MixProject do
       elixir: "~> 1.7",
       dialyzer: dialyzer(),
       deps: deps(),
-      description: "Checks, fetches and delivers configurable datasources",
+      description: "Checks, fetches and delivers configurable data sources",
       docs: docs(),
       elixirc_paths: elixirc_paths(Mix.env()),
       package: package(),
