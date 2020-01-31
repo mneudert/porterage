@@ -73,7 +73,7 @@ defmodule Porterage do
   """
   @spec deliver(Supervisor.supervisor(), any) :: :ok | :error
   def deliver(supervisor, data) do
-    case child(supervisor, Porterage.Deliverer) do
+    case child(supervisor, Deliverer) do
       deliverer when is_pid(deliverer) -> GenServer.cast(deliverer, {:deliver, data})
       _ -> :error
     end
@@ -84,7 +84,7 @@ defmodule Porterage do
   """
   @spec fetch(Supervisor.supervisor()) :: :ok | :error
   def fetch(supervisor) do
-    case child(supervisor, Porterage.Fetcher) do
+    case child(supervisor, Fetcher) do
       fetcher when is_pid(fetcher) -> GenServer.cast(fetcher, :fetch)
       _ -> :error
     end
@@ -95,7 +95,7 @@ defmodule Porterage do
   """
   @spec test(Supervisor.supervisor()) :: :ok | :error
   def test(supervisor) do
-    case child(supervisor, Porterage.Tester) do
+    case child(supervisor, Tester) do
       tester when is_pid(tester) -> GenServer.cast(tester, :test)
       _ -> :error
     end
@@ -106,7 +106,7 @@ defmodule Porterage do
   """
   @spec tick(Supervisor.supervisor()) :: :ok | :error
   def tick(supervisor) do
-    case child(supervisor, Porterage.Scheduler) do
+    case child(supervisor, Scheduler) do
       scheduler when is_pid(scheduler) -> GenServer.cast(scheduler, :tick)
       _ -> :error
     end
