@@ -72,42 +72,29 @@ defmodule Porterage do
   Force a delivery for a specific instance with custom data.
   """
   @spec deliver(Supervisor.supervisor(), any) :: :ok | :error
-  def deliver(supervisor, data) do
-    case child(supervisor, Deliverer) do
-      deliverer when is_pid(deliverer) -> GenServer.cast(deliverer, {:deliver, data})
-      _ -> :error
-    end
-  end
+  def deliver(supervisor, data), do: cast_to_process(supervisor, Deliverer, {:deliver, data})
 
   @doc """
   Force a fetch for a specific instance.
   """
   @spec fetch(Supervisor.supervisor()) :: :ok | :error
-  def fetch(supervisor) do
-    case child(supervisor, Fetcher) do
-      fetcher when is_pid(fetcher) -> GenServer.cast(fetcher, :fetch)
-      _ -> :error
-    end
-  end
+  def fetch(supervisor), do: cast_to_process(supervisor, Fetcher, :fetch)
 
   @doc """
   Force a test for a specific instance.
   """
   @spec test(Supervisor.supervisor()) :: :ok | :error
-  def test(supervisor) do
-    case child(supervisor, Tester) do
-      tester when is_pid(tester) -> GenServer.cast(tester, :test)
-      _ -> :error
-    end
-  end
+  def test(supervisor), do: cast_to_process(supervisor, Tester, :test)
 
   @doc """
   Force a tick for a specific instance.
   """
   @spec tick(Supervisor.supervisor()) :: :ok | :error
-  def tick(supervisor) do
-    case child(supervisor, Scheduler) do
-      scheduler when is_pid(scheduler) -> GenServer.cast(scheduler, :tick)
+  def tick(supervisor), do: cast_to_process(supervisor, Scheduler, :tick)
+
+  defp cast_to_process(supervisor, module, message) do
+    case child(supervisor, module) do
+      pid when is_pid(pid) -> GenServer.cast(pid, message)
       _ -> :error
     end
   end
