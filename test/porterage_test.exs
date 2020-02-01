@@ -6,17 +6,6 @@ defmodule PorterageTest do
   alias Porterage.TestHelpers.DummyScheduler
   alias Porterage.TestHelpers.DummyTester
 
-  test "named supervisor" do
-    start_supervised({
-      Porterage,
-      %{
-        supervisor: [name: :porterage_test_named]
-      }
-    })
-
-    assert :porterage_test_named |> Process.whereis() |> is_pid()
-  end
-
   test "allow manual delivering" do
     sup_name = :porterage_test_named_deliver
 
