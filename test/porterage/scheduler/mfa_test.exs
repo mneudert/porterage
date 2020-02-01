@@ -8,7 +8,7 @@ defmodule Porterage.Scheduler.MFATest do
       def tick(notify_pid), do: send(notify_pid, :tick)
     end
 
-    start_supervised(
+    start_supervised!(
       {Porterage,
        %{
          scheduler: MFA,

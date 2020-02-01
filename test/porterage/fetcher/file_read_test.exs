@@ -5,8 +5,8 @@ defmodule Porterage.Fetcher.FileReadTest do
   alias Porterage.TestHelpers.DummyDeliverer
 
   test "file is read and sent to deliverer" do
-    {:ok, sup_pid} =
-      start_supervised(
+    sup_pid =
+      start_supervised!(
         {Porterage,
          %{
            deliverer: DummyDeliverer,
@@ -25,8 +25,8 @@ defmodule Porterage.Fetcher.FileReadTest do
   end
 
   test "missing files are ignored" do
-    {:ok, sup_pid} =
-      start_supervised(
+    sup_pid =
+      start_supervised!(
         {Porterage,
          %{
            deliverer: DummyDeliverer,

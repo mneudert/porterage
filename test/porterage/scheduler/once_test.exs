@@ -5,7 +5,7 @@ defmodule Porterage.Scheduler.OnceTest do
   alias Porterage.TestHelpers.DummyTester
 
   test "tick returning true during startup" do
-    start_supervised(
+    start_supervised!(
       {Porterage,
        %{
          scheduler: Once,

@@ -16,8 +16,8 @@ defmodule Porterage.Tester.MFATest do
       end
     end
 
-    {:ok, sup_pid} =
-      start_supervised(
+    sup_pid =
+      start_supervised!(
         {Porterage,
          %{
            tester: MFA,

@@ -9,8 +9,8 @@ defmodule PorterageTest do
   test "allow manual delivering" do
     sup_name = :porterage_test_named_deliver
 
-    {:ok, sup_pid} =
-      start_supervised({
+    sup_pid =
+      start_supervised!({
         Porterage,
         %{
           deliverer: DummyDeliverer,
@@ -29,8 +29,8 @@ defmodule PorterageTest do
   test "allow manual fetching" do
     sup_name = :porterage_test_named_fetch
 
-    {:ok, sup_pid} =
-      start_supervised({
+    sup_pid =
+      start_supervised!({
         Porterage,
         %{
           fetcher: DummyFetcher,
@@ -49,8 +49,8 @@ defmodule PorterageTest do
   test "allow manual testing" do
     sup_name = :porterage_test_named_test
 
-    {:ok, sup_pid} =
-      start_supervised({
+    sup_pid =
+      start_supervised!({
         Porterage,
         %{
           tester: DummyTester,
@@ -69,8 +69,8 @@ defmodule PorterageTest do
   test "allow manual ticking" do
     sup_name = :porterage_test_named_tick
 
-    {:ok, sup_pid} =
-      start_supervised({
+    sup_pid =
+      start_supervised!({
         Porterage,
         %{
           scheduler: DummyScheduler,

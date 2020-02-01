@@ -4,8 +4,8 @@ defmodule Porterage.Deliverer.SendTest do
   alias Porterage.Deliverer.Send
 
   test "data delivered to configured pid" do
-    {:ok, sup_pid} =
-      start_supervised(
+    sup_pid =
+      start_supervised!(
         {Porterage,
          %{
            deliverer: Send,

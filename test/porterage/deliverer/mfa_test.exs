@@ -8,8 +8,8 @@ defmodule Porterage.Deliverer.MFATest do
       def deliver(data, notify_pid), do: send(notify_pid, data)
     end
 
-    {:ok, sup_pid} =
-      start_supervised(
+    sup_pid =
+      start_supervised!(
         {Porterage,
          %{
            deliverer: MFA,

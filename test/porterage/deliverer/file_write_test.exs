@@ -9,8 +9,8 @@ defmodule Porterage.Deliverer.FileWriteTest do
 
     File.rm(file)
 
-    {:ok, sup_pid} =
-      start_supervised(
+    sup_pid =
+      start_supervised!(
         {Porterage,
          %{
            deliverer: FileWrite,

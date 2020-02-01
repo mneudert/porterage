@@ -9,8 +9,8 @@ defmodule Porterage.Scheduler.FileStatTest do
 
     File.touch(file)
 
-    {:ok, sup_pid} =
-      start_supervised(
+    sup_pid =
+      start_supervised!(
         {Porterage,
          %{
            tester: FileStat,
@@ -35,8 +35,8 @@ defmodule Porterage.Scheduler.FileStatTest do
 
     File.touch(file, {{2000, 12, 12}, {12, 12, 12}})
 
-    {:ok, sup_pid} =
-      start_supervised(
+    sup_pid =
+      start_supervised!(
         {Porterage,
          %{
            tester: FileStat,
@@ -59,8 +59,8 @@ defmodule Porterage.Scheduler.FileStatTest do
   end
 
   test "unchanged file only triggers :fetch once" do
-    {:ok, sup_pid} =
-      start_supervised(
+    sup_pid =
+      start_supervised!(
         {Porterage,
          %{
            tester: FileStat,

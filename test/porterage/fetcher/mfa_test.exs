@@ -9,8 +9,8 @@ defmodule Porterage.Fetcher.MFATest do
       def fetch(data), do: {:ok, data}
     end
 
-    {:ok, sup_pid} =
-      start_supervised(
+    sup_pid =
+      start_supervised!(
         {Porterage,
          %{
            deliverer: DummyDeliverer,
@@ -30,8 +30,8 @@ defmodule Porterage.Fetcher.MFATest do
       def fetch, do: :nodata
     end
 
-    {:ok, sup_pid} =
-      start_supervised(
+    sup_pid =
+      start_supervised!(
         {Porterage,
          %{
            deliverer: DummyDeliverer,

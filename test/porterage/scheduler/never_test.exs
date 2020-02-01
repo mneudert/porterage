@@ -5,8 +5,8 @@ defmodule Porterage.Scheduler.NeverTest do
   alias Porterage.TestHelpers.DummyTester
 
   test "tick does not return true" do
-    {:ok, sup_pid} =
-      start_supervised(
+    sup_pid =
+      start_supervised!(
         {Porterage,
          %{
            scheduler: Never,
