@@ -10,13 +10,13 @@ defmodule Porterage.Deliverer.FileWriteTest do
     File.rm(file)
 
     sup_pid =
-      start_supervised!(
-        {Porterage,
-         %{
-           deliverer: FileWrite,
-           deliverer_opts: %{file: file}
-         }}
-      )
+      start_supervised!({
+        Porterage,
+        %{
+          deliverer: FileWrite,
+          deliverer_opts: %{file: file}
+        }
+      })
 
     Porterage.deliver(sup_pid, contents)
 

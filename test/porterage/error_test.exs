@@ -16,15 +16,15 @@ defmodule Porterage.ErrorTest do
     log =
       capture_log(fn ->
         sup_pid =
-          start_supervised!(
-            {Porterage,
-             %{
-               deliverer: UnloadableDeliverer,
-               fetcher: UnloadableFetcher,
-               scheduler: UnloadableScheduler,
-               tester: UnloadableTester
-             }}
-          )
+          start_supervised!({
+            Porterage,
+            %{
+              deliverer: UnloadableDeliverer,
+              fetcher: UnloadableFetcher,
+              scheduler: UnloadableScheduler,
+              tester: UnloadableTester
+            }
+          })
 
         assert :error == Porterage.deliver(sup_pid, :some_data)
         assert :error == Porterage.fetch(sup_pid)

@@ -10,15 +10,15 @@ defmodule Porterage.Fetcher.MFATest do
     end
 
     sup_pid =
-      start_supervised!(
-        {Porterage,
-         %{
-           deliverer: DummyDeliverer,
-           deliverer_opts: %{parent: self()},
-           fetcher: MFA,
-           fetcher_opts: %{mfa: {MFADataFetcher, :fetch, [:some_data]}}
-         }}
-      )
+      start_supervised!({
+        Porterage,
+        %{
+          deliverer: DummyDeliverer,
+          deliverer_opts: %{parent: self()},
+          fetcher: MFA,
+          fetcher_opts: %{mfa: {MFADataFetcher, :fetch, [:some_data]}}
+        }
+      })
 
     Porterage.fetch(sup_pid)
 
@@ -31,15 +31,15 @@ defmodule Porterage.Fetcher.MFATest do
     end
 
     sup_pid =
-      start_supervised!(
-        {Porterage,
-         %{
-           deliverer: DummyDeliverer,
-           deliverer_opts: %{parent: self()},
-           fetcher: MFA,
-           fetcher_opts: %{mfa: {MFANodataFetcher, :fetch, []}}
-         }}
-      )
+      start_supervised!({
+        Porterage,
+        %{
+          deliverer: DummyDeliverer,
+          deliverer_opts: %{parent: self()},
+          fetcher: MFA,
+          fetcher_opts: %{mfa: {MFANodataFetcher, :fetch, []}}
+        }
+      })
 
     Porterage.fetch(sup_pid)
 

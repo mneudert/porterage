@@ -10,15 +10,15 @@ defmodule Porterage.Scheduler.FileStatTest do
     File.touch(file)
 
     sup_pid =
-      start_supervised!(
-        {Porterage,
-         %{
-           tester: FileStat,
-           tester_opts: %{file: file, stat_key: :mtime},
-           fetcher: DummyFetcher,
-           fetcher_opts: %{parent: self(), send_fetch: :fetch}
-         }}
-      )
+      start_supervised!({
+        Porterage,
+        %{
+          tester: FileStat,
+          tester_opts: %{file: file, stat_key: :mtime},
+          fetcher: DummyFetcher,
+          fetcher_opts: %{parent: self(), send_fetch: :fetch}
+        }
+      })
 
     Porterage.test(sup_pid)
 
@@ -36,15 +36,15 @@ defmodule Porterage.Scheduler.FileStatTest do
     File.touch(file, {{2000, 12, 12}, {12, 12, 12}})
 
     sup_pid =
-      start_supervised!(
-        {Porterage,
-         %{
-           tester: FileStat,
-           tester_opts: %{file: file, stat_key: :mtime},
-           fetcher: DummyFetcher,
-           fetcher_opts: %{parent: self(), send_fetch: :fetch}
-         }}
-      )
+      start_supervised!({
+        Porterage,
+        %{
+          tester: FileStat,
+          tester_opts: %{file: file, stat_key: :mtime},
+          fetcher: DummyFetcher,
+          fetcher_opts: %{parent: self(), send_fetch: :fetch}
+        }
+      })
 
     Porterage.test(sup_pid)
 
@@ -60,15 +60,15 @@ defmodule Porterage.Scheduler.FileStatTest do
 
   test "unchanged file only triggers :fetch once" do
     sup_pid =
-      start_supervised!(
-        {Porterage,
-         %{
-           tester: FileStat,
-           tester_opts: %{file: Path.join(__DIR__, "file_stat_test.exs"), stat_key: :mtime},
-           fetcher: DummyFetcher,
-           fetcher_opts: %{parent: self(), send_fetch: :fetch}
-         }}
-      )
+      start_supervised!({
+        Porterage,
+        %{
+          tester: FileStat,
+          tester_opts: %{file: Path.join(__DIR__, "file_stat_test.exs"), stat_key: :mtime},
+          fetcher: DummyFetcher,
+          fetcher_opts: %{parent: self(), send_fetch: :fetch}
+        }
+      })
 
     Porterage.test(sup_pid)
     Porterage.test(sup_pid)

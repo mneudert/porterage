@@ -9,13 +9,13 @@ defmodule Porterage.Deliverer.MFATest do
     end
 
     sup_pid =
-      start_supervised!(
-        {Porterage,
-         %{
-           deliverer: MFA,
-           deliverer_opts: %{mfa: {MFADeliverer, :deliver, [self()]}}
-         }}
-      )
+      start_supervised!({
+        Porterage,
+        %{
+          deliverer: MFA,
+          deliverer_opts: %{mfa: {MFADeliverer, :deliver, [self()]}}
+        }
+      })
 
     Porterage.deliver(sup_pid, :some_data)
 

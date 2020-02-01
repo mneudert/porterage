@@ -5,13 +5,13 @@ defmodule Porterage.Deliverer.SendTest do
 
   test "data delivered to configured pid" do
     sup_pid =
-      start_supervised!(
-        {Porterage,
-         %{
-           deliverer: Send,
-           deliverer_opts: %{dest: self()}
-         }}
-      )
+      start_supervised!({
+        Porterage,
+        %{
+          deliverer: Send,
+          deliverer_opts: %{dest: self()}
+        }
+      })
 
     Porterage.deliver(sup_pid, :some_data)
 

@@ -17,13 +17,13 @@ defmodule Porterage.Tester.MFATest do
     end
 
     sup_pid =
-      start_supervised!(
-        {Porterage,
-         %{
-           tester: MFA,
-           tester_opts: %{mfa: {MFATester, :test, [self()]}}
-         }}
-      )
+      start_supervised!({
+        Porterage,
+        %{
+          tester: MFA,
+          tester_opts: %{mfa: {MFATester, :test, [self()]}}
+        }
+      })
 
     Porterage.test(sup_pid)
     Porterage.test(sup_pid)

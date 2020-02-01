@@ -6,14 +6,14 @@ defmodule Porterage.Scheduler.NeverTest do
 
   test "tick does not return true" do
     sup_pid =
-      start_supervised!(
-        {Porterage,
-         %{
-           scheduler: Never,
-           tester: DummyTester,
-           tester_opts: %{parent: self(), return_test: false, send_test: :test}
-         }}
-      )
+      start_supervised!({
+        Porterage,
+        %{
+          scheduler: Never,
+          tester: DummyTester,
+          tester_opts: %{parent: self(), return_test: false, send_test: :test}
+        }
+      })
 
     Porterage.tick(sup_pid)
 

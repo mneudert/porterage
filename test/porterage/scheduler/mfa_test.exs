@@ -8,13 +8,13 @@ defmodule Porterage.Scheduler.MFATest do
       def tick(notify_pid), do: send(notify_pid, :tick)
     end
 
-    start_supervised!(
-      {Porterage,
-       %{
-         scheduler: MFA,
-         scheduler_opts: %{mfa: {MFAScheduler, :tick, [self()]}}
-       }}
-    )
+    start_supervised!({
+      Porterage,
+      %{
+        scheduler: MFA,
+        scheduler_opts: %{mfa: {MFAScheduler, :tick, [self()]}}
+      }
+    })
 
     assert_receive :tick
   end
