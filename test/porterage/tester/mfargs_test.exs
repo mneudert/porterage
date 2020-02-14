@@ -1,10 +1,10 @@
-defmodule Porterage.Tester.MFATest do
+defmodule Porterage.Tester.MFArgsTest do
   use ExUnit.Case, async: true
 
-  alias Porterage.Tester.MFA
+  alias Porterage.Tester.MFArgs
 
   test "test result defined by configured callable" do
-    defmodule MFATester do
+    defmodule MFArgsTester do
       def test(nil, notify_pid) do
         send(notify_pid, :first)
         {:first, false}
@@ -20,8 +20,8 @@ defmodule Porterage.Tester.MFATest do
       start_supervised!({
         Porterage,
         %{
-          tester: MFA,
-          tester_opts: %{mfa: {MFATester, :test, [self()]}}
+          tester: MFArgs,
+          tester_opts: %{mfargs: {MFArgsTester, :test, [self()]}}
         }
       })
 

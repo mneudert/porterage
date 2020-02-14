@@ -1,11 +1,11 @@
-defmodule Porterage.Fetcher.MFATest do
+defmodule Porterage.Fetcher.MFArgsTest do
   use ExUnit.Case, async: true
 
-  alias Porterage.Fetcher.MFA
+  alias Porterage.Fetcher.MFArgs
   alias Porterage.TestHelpers.DummyDeliverer
 
   test "fetcher can send data to deliverer" do
-    defmodule MFADataFetcher do
+    defmodule MFArgsDataFetcher do
       def fetch(data), do: {:ok, data}
     end
 
@@ -15,8 +15,8 @@ defmodule Porterage.Fetcher.MFATest do
         %{
           deliverer: DummyDeliverer,
           deliverer_opts: %{parent: self()},
-          fetcher: MFA,
-          fetcher_opts: %{mfa: {MFADataFetcher, :fetch, [:some_data]}}
+          fetcher: MFArgs,
+          fetcher_opts: %{mfargs: {MFArgsDataFetcher, :fetch, [:some_data]}}
         }
       })
 
@@ -26,7 +26,7 @@ defmodule Porterage.Fetcher.MFATest do
   end
 
   test "fetcher can skip data sending" do
-    defmodule MFANodataFetcher do
+    defmodule MFArgsNodataFetcher do
       def fetch, do: :nodata
     end
 
@@ -36,8 +36,8 @@ defmodule Porterage.Fetcher.MFATest do
         %{
           deliverer: DummyDeliverer,
           deliverer_opts: %{parent: self()},
-          fetcher: MFA,
-          fetcher_opts: %{mfa: {MFANodataFetcher, :fetch, []}}
+          fetcher: MFArgs,
+          fetcher_opts: %{mfargs: {MFArgsNodataFetcher, :fetch, []}}
         }
       })
 

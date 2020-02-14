@@ -1,4 +1,4 @@
-defmodule Porterage.Scheduler.MFA do
+defmodule Porterage.Scheduler.MFArgs do
   @moduledoc """
   Scheduler based on usage of `Kernel.apply/3` calls.
 
@@ -12,22 +12,22 @@ defmodule Porterage.Scheduler.MFA do
   ## Configuration
 
       {
-        scheduler: Porterage.Scheduler.MFA,
-        scheduler_opts: %{mfa: {_, _, _}}
+        scheduler: Porterage.Scheduler.MFArgs,
+        scheduler_opts: %{mfargs: {_, _, _}}
       }
 
   See `t:options/0` for a specification of available options.
   """
 
-  @type options :: %{mfa: {module, atom, [any]}}
+  @type options :: %{mfargs: {module, atom, [any]}}
 
   @behaviour Porterage.Scheduler
 
   @impl Porterage.Scheduler
-  def init(%{mfa: {_, _, _}} = state), do: state
+  def init(%{mfargs: {_, _, _}} = state), do: state
 
   @impl Porterage.Scheduler
-  def tick(%{mfa: {mod, fun, args}} = state) do
+  def tick(%{mfargs: {mod, fun, args}} = state) do
     {state, apply(mod, fun, args)}
   end
 end

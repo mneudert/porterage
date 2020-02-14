@@ -1,18 +1,18 @@
-defmodule Porterage.Scheduler.MFATest do
+defmodule Porterage.Scheduler.MFArgsTest do
   use ExUnit.Case, async: true
 
-  alias Porterage.Scheduler.MFA
+  alias Porterage.Scheduler.MFArgs
 
   test "tick result defined by configured callable" do
-    defmodule MFAScheduler do
+    defmodule MFArgsScheduler do
       def tick(notify_pid), do: send(notify_pid, :tick)
     end
 
     start_supervised!({
       Porterage,
       %{
-        scheduler: MFA,
-        scheduler_opts: %{mfa: {MFAScheduler, :tick, [self()]}}
+        scheduler: MFArgs,
+        scheduler_opts: %{mfargs: {MFArgsScheduler, :tick, [self()]}}
       }
     })
 

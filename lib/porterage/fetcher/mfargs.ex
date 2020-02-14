@@ -1,4 +1,4 @@
-defmodule Porterage.Fetcher.MFA do
+defmodule Porterage.Fetcher.MFArgs do
   @moduledoc """
   Fetcher based on usage of `Kernel.apply/3` calls.
 
@@ -8,22 +8,22 @@ defmodule Porterage.Fetcher.MFA do
   ## Configuration
 
       {
-        fetcher: Porterage.Fetcher.MFA,
-        fetcher_opts: %{mfa: {_, _, _}}
+        fetcher: Porterage.Fetcher.MFArgs,
+        fetcher_opts: %{mfargs: {_, _, _}}
       }
 
   See `t:options/0` for a specification of available options.
   """
 
-  @type options :: %{mfa: {module, atom, [any]}}
+  @type options :: %{mfargs: {module, atom, [any]}}
 
   @behaviour Porterage.Fetcher
 
   @impl Porterage.Fetcher
-  def init(%{mfa: {_, _, _}} = state), do: state
+  def init(%{mfargs: {_, _, _}} = state), do: state
 
   @impl Porterage.Fetcher
-  def fetch(%{mfa: {mod, fun, args}} = state) do
+  def fetch(%{mfargs: {mod, fun, args}} = state) do
     case apply(mod, fun, args) do
       {:ok, contents} -> {:ok, state, contents}
       _ -> {:ok, state}

@@ -1,4 +1,4 @@
-defmodule Porterage.Tester.MFA do
+defmodule Porterage.Tester.MFArgs do
   @moduledoc """
   Tester based on usage of `Kernel.apply/3` calls.
 
@@ -11,25 +11,25 @@ defmodule Porterage.Tester.MFA do
   ## Configuration
 
       {
-        tester: Porterage.Tester.MFA,
-        tester_opts: %{mfa: {_, _, _}}
+        tester: Porterage.Tester.MFArgs,
+        tester_opts: %{mfargs: {_, _, _}}
       }
 
   See `t:options/0` for a specification of available options.
   """
 
-  @type options :: %{mfa: {module, atom, [any]}}
+  @type options :: %{mfargs: {module, atom, [any]}}
 
   @behaviour Porterage.Tester
 
   @impl Porterage.Tester
-  def init(%{mfa: {_, _, _}} = state), do: state
+  def init(%{mfargs: {_, _, _}} = state), do: state
 
   @impl Porterage.Tester
-  def test(%{mfa: {mod, fun, args}} = state) do
-    mfa_state = Map.get(state, :mfa_state)
-    {mfa_state, result} = apply(mod, fun, [mfa_state | args])
+  def test(%{mfargs: {mod, fun, args}} = state) do
+    mfargs_state = Map.get(state, :mfargs_state)
+    {mfargs_state, result} = apply(mod, fun, [mfargs_state | args])
 
-    {Map.put(state, :mfa_state, mfa_state), result}
+    {Map.put(state, :mfargs_state, mfargs_state), result}
   end
 end

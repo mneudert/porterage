@@ -1,10 +1,10 @@
-defmodule Porterage.Deliverer.MFATest do
+defmodule Porterage.Deliverer.MFArgsTest do
   use ExUnit.Case, async: true
 
-  alias Porterage.Deliverer.MFA
+  alias Porterage.Deliverer.MFArgs
 
   test "data delivered to configured pid" do
-    defmodule MFADeliverer do
+    defmodule MFArgsDeliverer do
       def deliver(data, notify_pid), do: send(notify_pid, data)
     end
 
@@ -12,8 +12,8 @@ defmodule Porterage.Deliverer.MFATest do
       start_supervised!({
         Porterage,
         %{
-          deliverer: MFA,
-          deliverer_opts: %{mfa: {MFADeliverer, :deliver, [self()]}}
+          deliverer: MFArgs,
+          deliverer_opts: %{mfargs: {MFArgsDeliverer, :deliver, [self()]}}
         }
       })
 
