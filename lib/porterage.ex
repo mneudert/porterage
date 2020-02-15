@@ -1,6 +1,5 @@
 defmodule Porterage do
   @moduledoc """
-
   Checks, fetches and delivers configurable data sources.
 
   ## Usage
@@ -26,6 +25,29 @@ defmodule Porterage do
 
   If a `:supervisor` key is set the values are passed
   as the options argument to `Supervisor.start_link/3`.
+
+  ## Data Flow
+
+  1. `Porterage.Scheduler`
+
+     Depending on the `:scheduler` chosen a `:tick` will start the data flow.
+
+  2. `Porterage.Tester`
+
+     If the scheduler decided it is time to test the data source the chosen
+     `:tester` will receive a notification to do so.
+
+  3. `Porterage.Fetcher`
+
+     Every time a test for new data was deemed successful the `:fetcher` will
+     retrieve the data to be delivered.
+
+  4. `Porterage.Deliverer`
+
+     Once the data was fetched in the previous step the `:deliverer` will take
+     care of delivering it to the target.
+
+  Every step of the flow can be manually triggered.
   """
 
   use Supervisor
