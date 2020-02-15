@@ -7,7 +7,7 @@ defmodule Porterage.MixProject do
     [
       app: :porterage,
       name: "Porterage",
-      version: "0.1.0-dev",
+      version: "0.1.0",
       elixir: "~> 1.7",
       dialyzer: dialyzer(),
       deps: deps(),
@@ -72,7 +72,7 @@ defmodule Porterage.MixProject do
         ]
       ],
       main: "Porterage",
-      source_ref: "master",
+      source_ref: "v0.1.0",
       source_url: @url_github
     ]
   end
