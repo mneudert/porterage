@@ -6,18 +6,20 @@ defmodule Porterage do
 
   Place a porterage instance in your supervision tree:
 
-      {Porterage,
-       %{
-         deliverer: MyDeliverer,
-         deliverer_opts: %{},
-         fetcher: MyFetcher,
-         fetcher_opts: %{},
-         scheduler: MyScheduler,
-         scheduler_opts: %{},
-         supervisor: [],
-         tester: MyTester,
-         tester_opts: %{}
-       }}
+      {
+        Porterage,
+        %{
+          deliverer: MyDeliverer,
+          deliverer_opts: %{},
+          fetcher: MyFetcher,
+          fetcher_opts: %{},
+          scheduler: MyScheduler,
+          scheduler_opts: %{},
+          supervisor: [],
+          tester: MyTester,
+          tester_opts: %{}
+        }
+      }
 
   See `t:config/0` for a specification of the available configuration keys.
 
