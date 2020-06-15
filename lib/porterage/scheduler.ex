@@ -19,7 +19,7 @@ defmodule Porterage.Scheduler do
     if Code.ensure_loaded?(scheduler) do
       GenServer.start_link(__MODULE__, config)
     else
-      _ = Logger.warn("Could not load scheduler module: #{scheduler}")
+      _ = Logger.warn(["Could not load scheduler module: ", inspect(scheduler)])
       :ignore
     end
   end
