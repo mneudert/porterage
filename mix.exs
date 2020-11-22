@@ -18,7 +18,7 @@ defmodule Porterage.MixProject do
       preferred_cli_env: [
         coveralls: :test,
         "coveralls.detail": :test,
-        "coveralls.travis": :test
+        "coveralls.github": :test
       ],
       test_coverage: [tool: ExCoveralls]
     ]
