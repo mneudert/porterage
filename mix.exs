@@ -17,8 +17,7 @@ defmodule Porterage.MixProject do
       package: package(),
       preferred_cli_env: [
         coveralls: :test,
-        "coveralls.detail": :test,
-        "coveralls.github": :test
+        "coveralls.detail": :test
       ],
       test_coverage: [tool: ExCoveralls]
     ]
@@ -35,7 +34,9 @@ defmodule Porterage.MixProject do
         :race_conditions,
         :underspecs,
         :unmatched_returns
-      ]
+      ],
+      plt_core_path: "plts",
+      plt_file: {:no_warn, "plts/dialyzer.plt"}
     ]
   end
 
