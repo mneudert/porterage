@@ -8,7 +8,7 @@ defmodule Porterage.MixProject do
       app: :porterage,
       name: "Porterage",
       version: "0.2.0-dev",
-      elixir: "~> 1.7",
+      elixir: "~> 1.9",
       dialyzer: dialyzer(),
       deps: deps(),
       description: "Checks, fetches and delivers configurable data sources",
