@@ -73,6 +73,11 @@ defmodule Porterage.MixProject do
         ]
       ],
       main: "Porterage",
+      extras: [
+        "CHANGELOG.md",
+        LICENSE: [title: "License"],
+        "README.md": [title: "Overview"]
+      ],
       source_ref: "master",
       source_url: @url_github
     ]
