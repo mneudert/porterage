@@ -78,6 +78,7 @@ defmodule Porterage.MixProject do
         LICENSE: [title: "License"],
         "README.md": [title: "Overview"]
       ],
+      formatters: ["html"],
       source_ref: "master",
       source_url: @url_github
     ]
