@@ -2,12 +2,13 @@ defmodule Porterage.MixProject do
   use Mix.Project
 
   @url_github "https://github.com/mneudert/porterage"
+  @version "0.2.0-dev"
 
   def project do
     [
       app: :porterage,
       name: "Porterage",
-      version: "0.2.0-dev",
+      version: @version,
       elixir: "~> 1.9",
       dialyzer: dialyzer(),
       deps: deps(),
@@ -79,7 +80,7 @@ defmodule Porterage.MixProject do
         "README.md": [title: "Overview"]
       ],
       formatters: ["html"],
-      source_ref: "master",
+      source_ref: "v#{@version}",
       source_url: @url_github
     ]
   end
