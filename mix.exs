@@ -1,6 +1,7 @@
 defmodule Porterage.MixProject do
   use Mix.Project
 
+  @url_changelog "https://hexdocs.pm/porterage/changelog.html"
   @url_github "https://github.com/mneudert/porterage"
   @version "0.2.0-dev"
 
@@ -92,7 +93,10 @@ defmodule Porterage.MixProject do
     [
       files: ["CHANGELOG.md", "LICENSE", "mix.exs", "README.md", "lib"],
       licenses: ["Apache-2.0"],
-      links: %{"GitHub" => @url_github}
+      links: %{
+        "Changelog" => @url_changelog,
+        "GitHub" => @url_github
+      }
     ]
   end
 end
