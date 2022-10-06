@@ -19,7 +19,7 @@ defmodule Porterage.Tester do
     if Code.ensure_loaded?(tester) do
       GenServer.start_link(__MODULE__, config)
     else
-      _ = Logger.warn(["Could not load tester module: ", inspect(tester)])
+      _ = Logger.warning(["Could not load tester module: ", inspect(tester)])
       :ignore
     end
   end

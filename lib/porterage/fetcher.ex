@@ -19,7 +19,7 @@ defmodule Porterage.Fetcher do
     if Code.ensure_loaded?(fetcher) do
       GenServer.start_link(__MODULE__, config)
     else
-      _ = Logger.warn(["Could not load fetcher module: ", inspect(fetcher)])
+      _ = Logger.warning(["Could not load fetcher module: ", inspect(fetcher)])
       :ignore
     end
   end

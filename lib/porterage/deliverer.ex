@@ -18,7 +18,7 @@ defmodule Porterage.Deliverer do
     if Code.ensure_loaded?(deliverer) do
       GenServer.start_link(__MODULE__, config)
     else
-      _ = Logger.warn(["Could not load deliverer module: ", inspect(deliverer)])
+      _ = Logger.warning(["Could not load deliverer module: ", inspect(deliverer)])
       :ignore
     end
   end
