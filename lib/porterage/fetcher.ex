@@ -24,7 +24,7 @@ defmodule Porterage.Fetcher do
     end
   end
 
-  @doc false
+  @impl GenServer
   def init([supervisor, fetcher, opts]) do
     substate =
       if function_exported?(fetcher, :init, 1) do
@@ -34,6 +34,7 @@ defmodule Porterage.Fetcher do
     {:ok, %FetcherState{fetcher: fetcher, substate: substate, supervisor: supervisor}}
   end
 
+  @impl GenServer
   def handle_cast(
         :fetch,
         %FetcherState{fetcher: fetcher, substate: substate, supervisor: supervisor} = state

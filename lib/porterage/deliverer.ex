@@ -23,7 +23,7 @@ defmodule Porterage.Deliverer do
     end
   end
 
-  @doc false
+  @impl GenServer
   def init([supervisor, deliverer, opts]) do
     substate =
       if function_exported?(deliverer, :init, 1) do
@@ -33,6 +33,7 @@ defmodule Porterage.Deliverer do
     {:ok, %DelivererState{deliverer: deliverer, substate: substate, supervisor: supervisor}}
   end
 
+  @impl GenServer
   def handle_cast(
         {:deliver, data},
         %DelivererState{deliverer: deliverer, substate: substate} = state

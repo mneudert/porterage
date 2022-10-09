@@ -24,7 +24,7 @@ defmodule Porterage.Tester do
     end
   end
 
-  @doc false
+  @impl GenServer
   def init([supervisor, tester, opts]) do
     substate =
       if function_exported?(tester, :init, 1) do
@@ -34,6 +34,7 @@ defmodule Porterage.Tester do
     {:ok, %TesterState{substate: substate, supervisor: supervisor, tester: tester}}
   end
 
+  @impl GenServer
   def handle_cast(
         :test,
         %TesterState{substate: substate, supervisor: supervisor, tester: tester} = state

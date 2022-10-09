@@ -79,8 +79,7 @@ defmodule Porterage do
     Supervisor.start_link(__MODULE__, config, config[:supervisor] || [])
   end
 
-  @doc false
-  @spec init(config) :: {:ok, {:supervisor.sup_flags(), [:supervisor.child_spec()]}}
+  @impl Supervisor
   def init(config) do
     children = [
       {Scheduler, [self(), config[:scheduler], config[:scheduler_opts]]},

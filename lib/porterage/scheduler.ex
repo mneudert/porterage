@@ -24,7 +24,7 @@ defmodule Porterage.Scheduler do
     end
   end
 
-  @doc false
+  @impl GenServer
   def init([supervisor, scheduler, opts]) do
     substate =
       if function_exported?(scheduler, :init, 1) do
@@ -36,6 +36,7 @@ defmodule Porterage.Scheduler do
     {:ok, %SchedulerState{scheduler: scheduler, substate: substate, supervisor: supervisor}}
   end
 
+  @impl GenServer
   def handle_cast(
         :tick,
         %SchedulerState{scheduler: scheduler, substate: substate, supervisor: supervisor} = state
@@ -49,6 +50,7 @@ defmodule Porterage.Scheduler do
     {:noreply, %{state | substate: new_substate}}
   end
 
+  @impl GenServer
   def handle_info(:tick, state), do: handle_cast(:tick, state)
 
   @optional_callbacks [init: 1]
