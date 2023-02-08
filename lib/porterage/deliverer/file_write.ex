@@ -14,12 +14,12 @@ defmodule Porterage.Deliverer.FileWrite do
 
   @type options :: %{file: Path.t()}
 
-  @behaviour Porterage.Deliverer
+  @behaviour Porterage.DelivererBehaviour
 
-  @impl Porterage.Deliverer
+  @impl Porterage.DelivererBehaviour
   def init(%{file: _} = state), do: state
 
-  @impl Porterage.Deliverer
+  @impl Porterage.DelivererBehaviour
   def deliver(%{file: file} = state, data) do
     :ok = File.write(file, data)
     state

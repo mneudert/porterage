@@ -9,9 +9,6 @@ defmodule Porterage.Scheduler do
 
   alias Porterage.SchedulerState
 
-  @type state :: any
-  @type tick_result :: {state, boolean}
-
   @doc false
   def start_link([_, nil, _]), do: :ignore
 
@@ -52,16 +49,4 @@ defmodule Porterage.Scheduler do
 
   @impl GenServer
   def handle_info(:tick, state), do: handle_cast(:tick, state)
-
-  @optional_callbacks [init: 1]
-
-  @doc """
-  Optional state initialization.
-  """
-  @callback init(opts :: map) :: state
-
-  @doc """
-  Execute a run of the scheduler module.
-  """
-  @callback tick(state :: any) :: tick_result
 end

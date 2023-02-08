@@ -1,10 +1,10 @@
 defmodule Porterage.TesterState do
   @moduledoc false
 
-  alias Porterage.Tester
+  alias Porterage.TesterBehaviour
 
   @type t :: %__MODULE__{
-          substate: Tester.state(),
+          substate: TesterBehaviour.state(),
           supervisor: pid,
           tester: module
         }

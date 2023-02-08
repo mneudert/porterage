@@ -9,8 +9,6 @@ defmodule Porterage.Deliverer do
 
   alias Porterage.DelivererState
 
-  @type state :: any
-
   @doc false
   def start_link([_, nil, _]), do: :ignore
 
@@ -42,16 +40,4 @@ defmodule Porterage.Deliverer do
 
     {:noreply, %{state | substate: new_substate}}
   end
-
-  @optional_callbacks [init: 1]
-
-  @doc """
-  Execute a run of the deliverer module.
-  """
-  @callback deliver(state :: state, data :: any) :: state
-
-  @doc """
-  Optional state initialization.
-  """
-  @callback init(opts :: map) :: state
 end

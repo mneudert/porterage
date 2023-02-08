@@ -17,12 +17,12 @@ defmodule Porterage.Fetcher.MFArgs do
 
   @type options :: %{mfargs: {module, atom, [any]}}
 
-  @behaviour Porterage.Fetcher
+  @behaviour Porterage.FetcherBehaviour
 
-  @impl Porterage.Fetcher
+  @impl Porterage.FetcherBehaviour
   def init(%{mfargs: {_, _, _}} = state), do: state
 
-  @impl Porterage.Fetcher
+  @impl Porterage.FetcherBehaviour
   def fetch(%{mfargs: {mod, fun, args}} = state) do
     case apply(mod, fun, args) do
       {:ok, contents} -> {:ok, state, contents}

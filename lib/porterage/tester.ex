@@ -9,9 +9,6 @@ defmodule Porterage.Tester do
 
   alias Porterage.TesterState
 
-  @type state :: any
-  @type test_result :: {state, boolean}
-
   @doc false
   def start_link([_, nil, _]), do: :ignore
 
@@ -47,16 +44,4 @@ defmodule Porterage.Tester do
 
     {:noreply, %{state | substate: new_substate}}
   end
-
-  @optional_callbacks [init: 1]
-
-  @doc """
-  Optional state initialization.
-  """
-  @callback init(opts :: map) :: state
-
-  @doc """
-  Execute a run of the tester module.
-  """
-  @callback test(state :: any) :: test_result
 end

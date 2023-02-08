@@ -14,12 +14,12 @@ defmodule Porterage.Fetcher.FileRead do
 
   @type options :: %{file: Path.t()}
 
-  @behaviour Porterage.Fetcher
+  @behaviour Porterage.FetcherBehaviour
 
-  @impl Porterage.Fetcher
+  @impl Porterage.FetcherBehaviour
   def init(%{file: _} = state), do: state
 
-  @impl Porterage.Fetcher
+  @impl Porterage.FetcherBehaviour
   def fetch(%{file: file} = state) do
     case File.read(file) do
       {:ok, contents} -> {:ok, state, contents}

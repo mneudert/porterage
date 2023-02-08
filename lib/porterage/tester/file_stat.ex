@@ -14,12 +14,12 @@ defmodule Porterage.Tester.FileStat do
 
   @type options :: %{file: Path.t(), stat_key: atom}
 
-  @behaviour Porterage.Tester
+  @behaviour Porterage.TesterBehaviour
 
-  @impl Porterage.Tester
+  @impl Porterage.TesterBehaviour
   def init(%{file: _, stat_key: _} = state), do: state
 
-  @impl Porterage.Tester
+  @impl Porterage.TesterBehaviour
   def test(%{file: file, stat: {:ok, last_stat}, stat_key: stat_key} = state) do
     stat = File.stat(file)
     state = %{state | stat: stat}

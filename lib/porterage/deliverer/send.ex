@@ -14,12 +14,12 @@ defmodule Porterage.Deliverer.Send do
 
   @type options :: %{dest: Process.dest()}
 
-  @behaviour Porterage.Deliverer
+  @behaviour Porterage.DelivererBehaviour
 
-  @impl Porterage.Deliverer
+  @impl Porterage.DelivererBehaviour
   def init(%{dest: _} = state), do: state
 
-  @impl Porterage.Deliverer
+  @impl Porterage.DelivererBehaviour
   def deliver(%{dest: dest} = state, data) do
     send(dest, data)
     state

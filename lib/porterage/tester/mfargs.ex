@@ -20,12 +20,12 @@ defmodule Porterage.Tester.MFArgs do
 
   @type options :: %{mfargs: {module, atom, [any]}}
 
-  @behaviour Porterage.Tester
+  @behaviour Porterage.TesterBehaviour
 
-  @impl Porterage.Tester
+  @impl Porterage.TesterBehaviour
   def init(%{mfargs: {_, _, _}} = state), do: state
 
-  @impl Porterage.Tester
+  @impl Porterage.TesterBehaviour
   def test(%{mfargs: {mod, fun, args}} = state) do
     mfargs_state = Map.get(state, :mfargs_state)
     {mfargs_state, result} = apply(mod, fun, [mfargs_state | args])

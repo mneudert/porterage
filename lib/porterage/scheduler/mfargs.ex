@@ -21,12 +21,12 @@ defmodule Porterage.Scheduler.MFArgs do
 
   @type options :: %{mfargs: {module, atom, [any]}}
 
-  @behaviour Porterage.Scheduler
+  @behaviour Porterage.SchedulerBehaviour
 
-  @impl Porterage.Scheduler
+  @impl Porterage.SchedulerBehaviour
   def init(%{mfargs: {_, _, _}} = state), do: state
 
-  @impl Porterage.Scheduler
+  @impl Porterage.SchedulerBehaviour
   def tick(%{mfargs: {mod, fun, args}} = state) do
     {state, apply(mod, fun, args)}
   end

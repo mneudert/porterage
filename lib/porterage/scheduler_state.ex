@@ -1,11 +1,11 @@
 defmodule Porterage.SchedulerState do
   @moduledoc false
 
-  alias Porterage.Scheduler
+  alias Porterage.SchedulerBehaviour
 
   @type t :: %__MODULE__{
           scheduler: module,
-          substate: Scheduler.state(),
+          substate: SchedulerBehaviour.state(),
           supervisor: pid
         }
 

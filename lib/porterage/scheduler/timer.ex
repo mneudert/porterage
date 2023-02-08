@@ -14,12 +14,12 @@ defmodule Porterage.Scheduler.Timer do
 
   @type options :: %{time: non_neg_integer}
 
-  @behaviour Porterage.Scheduler
+  @behaviour Porterage.SchedulerBehaviour
 
-  @impl Porterage.Scheduler
+  @impl Porterage.SchedulerBehaviour
   def init(%{time: _} = state), do: state
 
-  @impl Porterage.Scheduler
+  @impl Porterage.SchedulerBehaviour
   def tick(%{time: send_after} = state) do
     Process.send_after(self(), :tick, send_after)
     {state, true}

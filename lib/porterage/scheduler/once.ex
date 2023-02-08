@@ -9,8 +9,8 @@ defmodule Porterage.Scheduler.Once do
       }
   """
 
-  @behaviour Porterage.Scheduler
+  @behaviour Porterage.SchedulerBehaviour
 
-  @impl Porterage.Scheduler
+  @impl Porterage.SchedulerBehaviour
   def tick(state), do: {state, true}
 end

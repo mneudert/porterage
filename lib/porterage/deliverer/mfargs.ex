@@ -19,12 +19,12 @@ defmodule Porterage.Deliverer.MFArgs do
 
   @type options :: %{mfargs: {module, atom, [any]}}
 
-  @behaviour Porterage.Deliverer
+  @behaviour Porterage.DelivererBehaviour
 
-  @impl Porterage.Deliverer
+  @impl Porterage.DelivererBehaviour
   def init(%{mfargs: {_, _, _}} = state), do: state
 
-  @impl Porterage.Deliverer
+  @impl Porterage.DelivererBehaviour
   def deliver(%{mfargs: {mod, fun, args}} = state, data) do
     apply(mod, fun, [data | args])
     state

@@ -9,9 +9,6 @@ defmodule Porterage.Fetcher do
 
   alias Porterage.FetcherState
 
-  @type state :: any
-  @type fetch_result :: {:ok, state, any} | {:ok, state}
-
   @doc false
   def start_link([_, nil, _]), do: :ignore
 
@@ -51,16 +48,4 @@ defmodule Porterage.Fetcher do
 
     {:noreply, %{state | substate: new_substate}}
   end
-
-  @optional_callbacks [init: 1]
-
-  @doc """
-  Execute a run of the fetcher module.
-  """
-  @callback fetch(state :: any) :: fetch_result
-
-  @doc """
-  Optional state initialization.
-  """
-  @callback init(opts :: map) :: state
 end
