@@ -1,9 +1,9 @@
 defmodule Porterage.TestHelpers.DummyScheduler do
   @moduledoc false
 
-  @behaviour Porterage.Scheduler
+  @behaviour Porterage.SchedulerBehaviour
 
-  @impl Porterage.Scheduler
+  @impl Porterage.SchedulerBehaviour
   def init(%{parent: parent, send_init: send_init} = state) do
     send(parent, send_init)
     state
@@ -11,7 +11,7 @@ defmodule Porterage.TestHelpers.DummyScheduler do
 
   def init(state), do: state
 
-  @impl Porterage.Scheduler
+  @impl Porterage.SchedulerBehaviour
   def tick(%{parent: parent, return_tick: return_tick, send_tick: send_tick} = state) do
     send(parent, send_tick)
     {state, return_tick}

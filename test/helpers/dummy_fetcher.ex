@@ -1,9 +1,9 @@
 defmodule Porterage.TestHelpers.DummyFetcher do
   @moduledoc false
 
-  @behaviour Porterage.Fetcher
+  @behaviour Porterage.FetcherBehaviour
 
-  @impl Porterage.Fetcher
+  @impl Porterage.FetcherBehaviour
   def init(%{parent: parent, send_init: send_init} = state) do
     send(parent, send_init)
     state
@@ -11,7 +11,7 @@ defmodule Porterage.TestHelpers.DummyFetcher do
 
   def init(state), do: state
 
-  @impl Porterage.Fetcher
+  @impl Porterage.FetcherBehaviour
   def fetch(%{parent: parent, return_fetch: return_fetch, send_fetch: send_fetch} = state) do
     send(parent, send_fetch)
     {:ok, state, return_fetch}

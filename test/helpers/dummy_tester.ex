@@ -1,9 +1,9 @@
 defmodule Porterage.TestHelpers.DummyTester do
   @moduledoc false
 
-  @behaviour Porterage.Tester
+  @behaviour Porterage.TesterBehaviour
 
-  @impl Porterage.Tester
+  @impl Porterage.TesterBehaviour
   def init(%{parent: parent, send_init: send_init} = state) do
     send(parent, send_init)
     state
@@ -11,7 +11,7 @@ defmodule Porterage.TestHelpers.DummyTester do
 
   def init(state), do: state
 
-  @impl Porterage.Tester
+  @impl Porterage.TesterBehaviour
   def test(%{parent: parent, return_test: return_test, send_test: send_test} = state) do
     send(parent, send_test)
     {state, return_test}
