@@ -65,4 +65,4 @@ jobs:
           mix deps.get
 
       - name: test
-        run: mix coveralls.github
+        run: mix coveralls
