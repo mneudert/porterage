@@ -47,7 +47,7 @@ defmodule Porterage.MixProject do
       {:credo, "~> 1.7", only: :dev, runtime: false},
       {:dialyxir, "~> 1.4", only: :dev, runtime: false},
       {:ex_doc, ">= 0.0.0", only: :dev, runtime: false},
-      {:excoveralls, "~> 0.17.0", only: :test, runtime: false}
+      {:excoveralls, "~> 0.18.0", only: :test, runtime: false}
     ]
   end
 
