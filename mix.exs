@@ -17,16 +17,21 @@ defmodule Porterage.MixProject do
       docs: docs(),
       elixirc_paths: elixirc_paths(Mix.env()),
       package: package(),
-      preferred_cli_env: [
-        coveralls: :test,
-        "coveralls.detail": :test
-      ],
       test_coverage: [tool: ExCoveralls]
     ]
   end
 
   def application do
     [extra_applications: [:logger]]
+  end
+
+  def cli do
+    [
+      preferred_envs: [
+        coveralls: :test,
+        "coveralls.detail": :test
+      ]
+    ]
   end
 
   defp dialyzer do
